@@ -3,7 +3,6 @@ from flask_login import current_user
 from app.dashchat.layout import textbox
 from transformers import AutoModelWithLMHead, AutoTokenizer
 from dash.dependencies import Input, Output, State
-import torch
 
 # Define app
 #app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
