@@ -1,3 +1,5 @@
+import os
+
 import dash
 from flask import Flask
 from flask.helpers import get_root_path
@@ -6,7 +8,7 @@ import dash_bootstrap_components as dbc
 
 def create_app():
     server = Flask(__name__)
-    server.secret_key = "sdfsdfsdfdsfsdfhhjghhjjghjghjhgjgjgjtwtwtwt"
+    server.secret_key = os.environ.get("FLASK_SECRET_KEY", "")
 
     from app.dashboard.layout import layout as layout1
     from app.dashchat.layout import layout as layout2
