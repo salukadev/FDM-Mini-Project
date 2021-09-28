@@ -20,15 +20,18 @@ model = "g"
 
 
 print("Done.")
-
+chat_history = []
 def register_callbacks(dashapp):
     @dashapp.callback(
         Output("display-conversation", "children"), [Input("store-conversation", "data")]
     )
     def update_display(chat_history):
         return [
+            #textbox('Saluka', box="self")
             textbox(x, box="self") if i % 2 == 0 else textbox(x, box="other")
-            for i, x in enumerate(chat_history.split(tokenizer.eos_token)[:-1])
+            for i, x in enumerate(chat_history)
+
+            #for i, x in enumerate(chat_history.split(tokenizer.eos_token)[:-1])
         ]
 
     @dashapp.callback(
@@ -42,6 +45,11 @@ def register_callbacks(dashapp):
 
         if user_input is None or user_input == "":
             return chat_history, ""
+
+
+        chat_history.append(user_input)
+
+        return chat_history, ""
 
         # # temporary
         # return chat_history + user_input + "<|endoftext|>" + user_input + "<|endoftext|>", ""
