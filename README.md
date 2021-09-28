@@ -21,7 +21,8 @@
 <p align="center">
     <img src="readmeImages/med.png" alt="Logo" width="250" height="auto">
 
-  <h1 align="center">Online Pharmaceutical product distribution System for Pharmac (PVT).Ltd.</h1>
+  <h1 align="center">Data driven chatbot enabled web application for 
+medical self-tests</h1>
 
   <p align="center">
     Project overview and installation instructions
@@ -72,27 +73,55 @@
 
 <!--[![Product Name Screen Shot][product-screenshot]](https://example.com)-->
 
-Pharmac Distributors Co. (PVT) LTD is a pharmaceutical importer and distributor based in Kandy, providing service to hundreds of pharmacies and dispensaries island wide. They legally source pharmaceutical products, store them under proper conditions before distributing them among authorized sellers. Their goal is to become the largest pharmaceutical distributor in the country. However, their operations are vastly affected by the inefficiency of the manual system currently deployed. Therefore, they have decided to implement an automated system to manage all possible functions and directly connect with the customers to provide more efficient service.
+In a situation like covid-19 pandemic, where travelling is reduced and the chance to 
+meet a doctor or to do a health checkup at a hospital is limited. Due to that reason, there is a 
+need of a digital platform for self-initiated health checks. During this project a globally 
+available web platform will be introduced and initially two diseases will be predicted using 
+symptoms.
+
+Even though many diseases have similar symptoms, it is very essential to identify 
+different symptoms along with their diseases. Here primarily focuses on psychological
+diseases and respiratory diseases and a method to distinctly identify these diseases based on 
+their symptoms are needs to be discussed.
+
+Alzheimer is a mental disorder which is common to dementia. This disease can be
+seen in the behavior of people who suffer from this disease. The most common symptom is 
+memory loss. Symptoms like difficulty in completing familiar tasks, time confusion can 
+also be seen in these patients. Identifying Alzheimer in its initial stage is very vital for the 
+curing the disease.
+
+This system is a software solution that can use to find Alzheimer disease at its initial 
+stage. Here a person will be subjected to a questionnaire and based on his inputs the user
+will be diagnosed and the medical condition of the Alzheimer disease is shown. Here based 
+on the results the user is given the possibility of getting Alzheimer disease.
+
+Covid-19 is also a disease which shows so many symptoms, but the users cannot 
+distinctly identify the symptoms. When focusing on Covid-19 infected people, being aware
+of the possibility to having Covid-19 will motivate people to take necessary precautions.
+This submodule will help to predict the infection status based on the symptoms.
+
+Final software solution will be a combination of Alzheimer detection tool with a 
+covid-19 analyzer in a single web application which is accessible through the Internet.
 
 ### Built With
 
 This section shows the list of major frameworks that we have used to  built our project . 
-* Front-end : [Vue JS 2](https://vuejs.org/)
+* Language : [Python 3.9](https://www.python.org/)
 
 
 
 
-<p align="center"><a href="https://vuejs.org/" target="_blank"><img src="https://vuejs.org/images/logo.png" width="150"></a></p>
+<p align="center"><a href="https://www.python.org/" target="_blank"><img src="https://www.python.org/static/img/python-logo@2x.png" width="350"></a></p>
 
 
 
-* Back-end : [Laravel 8](https://laravel.com)
+* Web-framework : [Flask 2.0](https://flask.palletsprojects.com/en/2.0.x/)
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><a href="https://flask.palletsprojects.com/en/2.0.x/" target="_blank"><img src="https://flask.palletsprojects.com/en/2.0.x/_images/flask-logo.png" width="300"></a></p>
 
-* Database : [MySQL](https://www.mysql.com/)
+* Graph/Plottings : [Dash](https://dash.plotly.com/)
 
-<p align="center"><a href="https://www.mysql.com/" target="_blank"><img src="readmeImages/pngegg.png" width="200"></a></p>
+<p align="center"><a href="https://dash.plotly.com/" target="_blank"><img src="https://dash.plotly.com/assets/images/light_plotly_dash_logo.png" width="300"></a></p>
 
 
 
@@ -103,11 +132,10 @@ In order to be fully funtional and uprunning the following should be followed
 
 ### Prerequisites
 
-The following applications must be installed
-* Xampp server with php version 8.0
-* MySQL server
-* Latest version of composer installed
-* Node Package Manager(npm)
+The following requirements should be fullfilled
+* Python 3.9 install
+* Creating a Python virtual environment to install python modules
+
 <!--
   ```sh
   npm install npm@latest -g
@@ -118,49 +146,21 @@ The following applications must be installed
 
 1. Clone the repository
    ```sh
-   git clone https://github.com/salukadev/Pharmac-OMS.git
+   git clone https://github.com/salukadev/FDM-Mini-Project.git
    ```
-2. Install Composer packages
+2. Install all the python modules
    ```sh
-   composer install
+   pip install -r requirements.txt
    ```
-3. Install Node Package manager packages
+3. Setting the Flask app run environment
    ```sh
-   npm install
+   set FLASK_APP=flask_app
    ```
-4. Add `.env` file and copy the content from `.env.example` file   
-5. Configure the database in `.env` file
+4. Run the server
    ```sh
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE='Your database name'
-   DB_USERNAME='Your database username'
-   DB_PASSWORD='Your database password'
-   ```
-7. Generate keys
-   ```sh
-   php artisan key:generate
-   ```
-6. Generate migrations
-   ```sh
-   php artisan migrate
+   flask run
    ```
 
-8. Run development serve
-   ```sh
-   php artisan optimize
-   php artisan serve
-   ```
-9. For development purposes
-   ```sh
-   npm run watch
-   ```
-
-   Incase of Issue in setting the environment 
-    ```sh
-   npm install laravel-mix@latest
-   ```
  
 <!--   ```
 7. Enter your API in `config.js`
@@ -178,7 +178,7 @@ The following applications must be installed
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-1. Clone the project <br>`git clone https://github.com/salukadev/Pharmac-OMS.git`
+1. Clone the project <br>`git clone https://github.com/salukadev/FDM-Mini-Project.git`
 2. Create your Feature Branch<br> `git checkout -b feature/AmazingFeature`
 3. Commit your Changes <br>`git commit -m 'Add some AmazingFeature'`
 4. Push to the Branch <br>`git push origin feature/AmazingFeature`
@@ -204,7 +204,7 @@ Project Link: [https://github.com/salukadev/Pharmac-OMS.git](https://github.com/
 <!-- ACKNOWLEDGEMENTS  -->
 ## Acknowledgements
 
-<p align="center"><a href="https://www.sliit.lk/" target="_blank"><img src="readmeImages/SLIIT_Logo_Crest.png" width="100"></a></p>
+<p align="center"><a href="https://www.sliit.lk/" target="_blank"><img src="https://university.gamer.lk/wp-content/uploads/2019/06/sliit.png" width="400"></a></p>
 
 This is a project done for the Information Technology project module of BSc.(Hons.) Degree in Information Technology in Sri Lanka Institute of Information Technology
 
@@ -212,12 +212,8 @@ This is a project done for the Information Technology project module of BSc.(Hon
 ## Contributors
 * IT19188928 - Saluka Udbhasa - [salukadev](https://github.com/salukadev)
 * IT19142838 - Esala Senarathna - [Esala-Senarathna](https://github.com/Esala-Senarathna)
-* IT19957180 - Danuja Wijerathne - [danuja-wije](https://github.com/danuja-wije)
-* IT19955896 - Salitha Tennakoon - [salitha10](https://github.com/salitha10)
 * IT19001708 - Parami Lelkada - [pLe98](https://github.com/pLe98)
-* IT19987880 - Manoj Rangana - [RanganaPWM](https://github.com/RanganaPWM)
-* IT19987712 - Kavindya Perera - [kavindya-perera](https://github.com/kavindya-perera)
-* IT19955896 - Ridma Reshan - [ridma11](https://github.com/ridma11)
+
 
 
 
