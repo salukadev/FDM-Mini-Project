@@ -52,8 +52,13 @@ layout = dbc.Container(
     children=[
         html.H1("Dash Chatbot (with DialoGPT)"),
         html.Hr(),
-        dcc.Store(id="store-conversation", data=""),
+        dcc.Store(id="store-conversation", data=[]),
         conversation,
         controls,
+        dcc.Interval(
+            id='onload_delay',
+            max_intervals=0,
+            interval=1*5000, # in milliseconds
+            n_intervals=2)
     ],
 )

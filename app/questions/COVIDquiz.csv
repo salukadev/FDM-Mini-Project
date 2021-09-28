@@ -1,0 +1,6 @@
+question,type
+"""Do you have fever?""",str
+"""Do you feel any body pain?""",int
+"""How old are you?""",str
+"""Do you have runny nose?""",str
+"""Do you feel any difficuly to breath?""",str
