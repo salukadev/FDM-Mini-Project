@@ -1,22 +1,59 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Sign In</h1>
-<form action="" method="post" novalidate>
-  {{ form.hidden_tag() }}
-  <p>
-    {{ form.username.label }}<br>
-    {{ form.username(size=32) }}<br>
-  </p>
-  <p>
-    {{ form.password.label }}<br>
-    {{ form.password(size=32) }}<br>
-  </p>
-  <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-  <p>{{ form.submit() }}</p>
-  {% if error %}
-  <p class="error"><strong>Error:</strong> {{ error }}
-    {% endif %}
-</form>
-<p> New User? <a href="{{ url_for('main.register') }}">Click to Register!</a></p>
+<html>
+<head>
+  <style>
+    .grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  /* background-color: #2196F3; */
+  padding: 10px;
+}
+.grid-item {
+  /* background-color: rgba(255, 255, 255, 0.8); */
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
+  padding: 40px;
+  margin-top:150px;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.button4 {
+  border-radius: 20px;
+  padding: 20px;
+  width: 400px;
+  color: cadetblue;
+  font-size: large;
+}
+  </style>
+</head>
+<body style="background:url('https://wallpaperaccess.com/full/510417.jpg') #444;">
+  <div class="grid-container">
+    <div class="grid-item"></div>
+    <div class="grid-item" style="background-color: rgba(255, 255, 255, 0.8); border: 1px solid rgba(0, 0, 0, 0.8);">
+      <h3>Sign In to Dashboard</h3>
+      <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+          <!-- {{ form.username.label }}<br> -->
+          {{ form.username(style="border-radius:30px; padding: 15px; font-size: 20px;", placeholder="Username",size=32) }}<br>
+        </p>
+        <p>
+          <!-- {{ form.password.label }}<br> -->
+          {{ form.password(style="border-radius:30px; padding: 15px; font-size: 20px;", placeholder="Password",size=32) }}<br>
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit(class="button4") }}</p>
+        {% if error %}
+        <p class="error" style="color: red;"><strong>Error:</strong> {{ error }}
+          {% endif %}
+      </form>
+    </div>
+    <div class="grid-item"></div>
+</div>
+</body>
+</html>
+<!-- <p> New User? <a href="{{ url_for('main.register') }}">Click to Register!</a></p> -->
 {% endblock %}
