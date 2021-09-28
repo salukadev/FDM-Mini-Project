@@ -16,7 +16,8 @@
 
     <style>
         .header-dark {
-  background:url('https://cdn.pixabay.com/photo/2015/10/12/14/59/milky-way-984050_960_720.jpg') #444;
+  background:url('https://wallpaperaccess.com/full/510417.jpg') #444;
+  /* https://cdn.pixabay.com/photo/2015/10/12/14/59/milky-way-984050_960_720.jpg */
   background-size:cover;
   padding-bottom:80px;
 }
@@ -182,6 +183,141 @@
   background-color:#666;
 }
 
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  /* background-color: #2196F3; */
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  margin:30px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.button4 {border-radius: 12px;}
+
+
+.fh5co-bg {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.fh5co-bg {
+  background-size: cover;
+  background-position: center center;
+  position: relative;
+  width: 100%;
+  float: left;
+}
+.fh5co-bg .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.fh5co-bg-section {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+#fh5co-footer {
+  padding: 7em 0;
+  clear: both;
+}
+@media screen and (max-width: 768px) {
+  #fh5co-footer {
+    padding: 3em 0;
+  }
+}
+
+#fh5co-footer {
+  position: relative;
+}
+#fh5co-footer .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+#fh5co-footer h3 {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+#fh5co-footer .fh5co-footer-links {
+  padding: 0;
+  margin: 0;
+}
+#fh5co-footer .fh5co-footer-links li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#fh5co-footer .fh5co-footer-links li a {
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: none;
+}
+#fh5co-footer .fh5co-footer-links li a:hover {
+  text-decoration: underline;
+}
+#fh5co-footer .fh5co-widget {
+  margin-bottom: 30px;
+}
+@media screen and (max-width: 768px) {
+  #fh5co-footer .fh5co-widget {
+    text-align: left;
+  }
+}
+#fh5co-footer .fh5co-widget h3 {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+#fh5co-footer .copyright .block {
+  display: block;
+}
+
+
+.btn-primary {
+  background: #F85A16;
+  color: #fff;
+  border: 2px solid #F85A16;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background: #f96c2f !important;
+  border-color: #f96c2f !important;
+}
+.btn-primary.btn-outline {
+  background: transparent;
+  color: #F85A16;
+  border: 1px solid #F85A16;
+}
+.btn-primary.btn-outline:hover, .btn-primary.btn-outline:focus, .btn-primary.btn-outline:active {
+  background: #F85A16;
+  color: #fff;
+}
+
     </style>
 </head>
 
@@ -193,9 +329,9 @@
                     <div class="collapse navbar-collapse"
                         id="navcol-1">
                         <ul class="nav navbar-nav">
-                            <li class="nav-item" role="presentation"><a class="nav-link" href="#">Link</a></li>
-                            <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Dropdown </a>
-                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">First Item</a><a class="dropdown-item" role="presentation" href="#">Second Item</a><a class="dropdown-item" role="presentation" href="#">Third Item</a></div>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="#">Dashboard</a></li>
+                            <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Get Tested </a>
+                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">Alzheimer test</a><a class="dropdown-item" role="presentation" href="#">Covid-19 test</a></div>
                             </li>
                         </ul>
                         <form class="form-inline mr-auto" target="_self">
@@ -206,13 +342,97 @@
             <div class="container hero">
                 <div class="row">
                     <div class="col-md-8 offset-md-2">
-                        <h1 class="text-center">The Truth is out there.</h1>
+                        <h1 class="text-center">
+                          “Healthy citizens are the greatest asset any country can have.” <br>– Winston Churchill</h1>
+                        <p align="center" style="color:#ccc;font-size:25px;">Health, according to the World Health Organization, is "a state of complete physical, mental and social 
+                          well-being and not merely the absence of disease and infirmity.</p>
                         
                     </div>
                 </div>
             </div>
+            <div class="grid-container">
+              <div class="grid-item" style="margin-left: 40px;">
+                <h1>Alzhiemer prediction</h1>
+                <p style="font-size:25px;">Alzheimer's is the most common cause of dementia, 
+                  a general term for memory loss and other cognitive abilities serious enough to 
+                  interfere with daily life. Alzheimer's disease accounts for 60-80% of dementia cases.</p>
+
+                <p style="font-size:25px;">Alzheimer's is not a normal part of aging. The greatest known risk factor is 
+                  increasing age, and the majority of people with Alzheimer's are 65 and older. Alzheimer’s 
+                  disease is considered to be younger-onset Alzheimer’s if it affects a person under 65. 
+                  Younger-onset can also be referred to as early-onset Alzheimer’s. People with younger-onset Alzheimer’s 
+                  can be in the early, middle or late stage of the disease.</p>
+                
+                  <p style="font-size:25px;">Alzheimer's worsens over time. Alzheimer's is a progressive disease, where dementia symptoms gradually 
+                    worsen over a number of years. In its early stages, memory loss is mild, but with late-stage Alzheimer's, individuals lose the 
+                    ability to carry on a conversation and respond to their environment. 
+                    Alzheimer's is the sixth-leading cause of death in the United States. On average, a person with Alzheimer's lives 4 
+                    to 8 years after diagnosis but can live as long as 20 years, depending on other factors.</p>
+
+                    <button class="button button4">Get tested for Alzheimer</button>
+              </div>
+              <div class="grid-item">
+                <h1>Covid-19 prediction</h1>
+                <p style="font-size:25px;">Coronavirus disease 2019 (COVID-19), also known as COVID and the coronavirus, is a contagious disease 
+                  caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). The first known case was identified in 
+                  Wuhan, China, in December 2019.The disease has since spread worldwide, leading to an ongoing pandemic.</p>
+                <p style="font-size:25px;">Symptoms of COVID-19 are variable, but often include fever, cough, headache, fatigue, breathing difficulties, 
+                  and loss of smell and taste. Symptoms may begin one to fourteen days after exposure to the virus. At least 
+                  a third of people who are infected do not develop noticeable symptoms. Of those people who develop symptoms noticeable 
+                  enough to be classed as patients, most (81%) develop mild to moderate symptoms (up to mild pneumonia), while 14% develop severe 
+                  symptoms (dyspnea, hypoxia, or more than 50% lung involvement on imaging), and 5% suffer critical symptoms (respiratory failure, 
+                  shock, or multiorgan dysfunction). Older people are at a higher risk of developing severe symptoms. Some people continue to 
+                  experience a range of effects (long COVID) for months after recovery, and damage to organs has been observed. Multi-year studies 
+                  </p>
+
+                  <button class="button button4">Get tested for Covid 19</button>
+                
+              </div>
+ 
+            </div>
+            
         </div>
+        
     </div>
+    <footer id="fh5co-footer" class="fh5co-bg" role="contentinfo">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row row-pb-md">
+          <div class="col-md-4 fh5co-widget">
+            <h3>A Little About Stamina.</h3>
+            <p style="color:#ccc">Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+            <p><a class="btn btn-primary" href="#">Become A Member</a></p>
+          </div>
+          <div class="col-md-8">
+            <h3>Classes</h3>
+            <div class="col-md-4 col-sm-4 col-xs-6">
+              <ul class="fh5co-footer-links">
+                <li><a href="#">Cardio</a></li>
+                <li><a href="#">Body Building</a></li>
+                <li><a href="#">Yoga</a></li>
+                <li><a href="#">Boxing</a></li>
+                <li><a href="#">Running</a></li>
+              </ul>
+            </div>
+  
+  
+          </div>
+        </div>
+  
+        <div class="row copyright">
+          <div class="col-md-12 text-center">
+            <p>
+              <small style="color:#ccc" class="block">&copy; 2021 | All Rights Reserved.</small> 
+              <small style="color:#ccc" class="block">Powered by  healthygo.com</small>
+            </p>
+          </div>
+        </div>
+  
+      </div>
+    </footer>
+
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 </body>
