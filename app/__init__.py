@@ -1,9 +1,9 @@
 import os
-
-import dash
+from dash_extensions.enrich import DashProxy, MultiplexerTransform
+#import dash
 from flask import Flask
 from flask.helpers import get_root_path
-from flask_login import login_required, LoginManager
+from flask_login import login_required
 import dash_bootstrap_components as dbc
 
 def create_app():
@@ -52,12 +52,20 @@ def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun,i
     # Meta tags for viewport responsiveness
     meta_viewport = {"name": "viewport", "content": "width=device-width, initial-scale=1, shrink-to-fit=no"}
 
-    my_dashapp = dash.Dash(__name__,
+    # my_dashapp = dash.Dash(__name__,
+    #                        server=app,
+    #                        external_stylesheets=[dbc.themes.BOOTSTRAP],
+    #                        url_base_pathname=f'/{base_pathname}/',
+    #                        assets_folder=get_root_path(__name__) + f'/{base_pathname}/assets/',
+    #                        meta_tags=[meta_viewport])
+    my_dashapp = DashProxy(__name__,
                            server=app,
                            external_stylesheets=[dbc.themes.BOOTSTRAP],
                            url_base_pathname=f'/{base_pathname}/',
                            assets_folder=get_root_path(__name__) + f'/{base_pathname}/assets/',
-                           meta_tags=[meta_viewport])
+                           meta_tags=[meta_viewport],
+                           prevent_initial_callbacks = True,
+                           transforms = [MultiplexerTransform()])
 
     with app.app_context():
         my_dashapp.title = title

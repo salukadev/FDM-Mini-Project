@@ -4,9 +4,9 @@ import pandas as pd
 from flask_login import current_user
 from app.dashchat.layout import textbox
 # from transformers import AutoModelWithLMHead, AutoTokenizer
-from dash.dependencies import Input, Output, State
+#from dash.dependencies import Input, Output, State
 import pandas
-
+from dash_extensions.enrich import Output,  Input, State
 # name = "microsoft/DialoGPT-medium"
 # tokenizer = AutoTokenizer.from_pretrained(name)
 # model = "g"
@@ -30,7 +30,7 @@ def register_callbacks(dashapp):
         ]
 
     @dashapp.callback(
-        [Output("store-conversationw", "data"), Output("user-input", "value")],
+        [Output("store-conversation", "data"), Output("user-input", "value")],
         [Input("submit", "n_clicks"), Input("user-input", "n_submit")],
         [State("user-input", "value"), State("store-conversation", "data")],
     )
@@ -74,6 +74,6 @@ def register_callbacks(dashapp):
         print(d, v, f)
         v.append('Hi! Welcome to our service')
 
-        return v,"Testing"
+        return v,""
 
 # def ask(question, valid):

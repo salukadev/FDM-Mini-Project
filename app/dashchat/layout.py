@@ -57,8 +57,8 @@ layout = dbc.Container(
         controls,
         dcc.Interval(
             id='onload_delay',
-            max_intervals=0,
-            interval=1*5000, # in milliseconds
-            n_intervals=2)
+            max_intervals=1,
+            interval=1*1000, # in milliseconds
+            n_intervals=0)
     ],
 )
