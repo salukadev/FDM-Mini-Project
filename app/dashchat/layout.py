@@ -7,7 +7,8 @@ def textbox(text, box="other"):
         "max-width": "55%",
         "width": "max-content",
         "padding": "10px 15px",
-        "border-radius": "25px",
+        "border-radius": "15px",
+        "margin-bottom": "5px"
     }
 
     if box == "self":
@@ -32,9 +33,10 @@ def textbox(text, box="other"):
 conversation = html.Div( style={
         "width": "80%",
         "max-width": "800px",
-        "height": "70vh",
+        "height": "78vh",
         "margin": "auto",
         "overflow-y": "auto",
+        "padding": "10px 5px",
     },
     id="display-conversation",)
 
@@ -53,6 +55,7 @@ layout = dbc.Container(
         html.H1("Dash Chatbot (with DialoGPT)"),
         html.Hr(),
         dcc.Store(id="store-conversation", data=[]),
+        dcc.Store(id="store-qcount", data=0),
         conversation,
         controls,
         dcc.Interval(

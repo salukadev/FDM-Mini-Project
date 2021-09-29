@@ -4,76 +4,85 @@ import pandas as pd
 from flask_login import current_user
 from app.dashchat.layout import textbox
 # from transformers import AutoModelWithLMHead, AutoTokenizer
-#from dash.dependencies import Input, Output, State
+# from dash.dependencies import Input, Output, State
 import pandas
-from dash_extensions.enrich import Output,  Input, State
+from dash_extensions.enrich import Output, Input, State
+
 # name = "microsoft/DialoGPT-medium"
 # tokenizer = AutoTokenizer.from_pretrained(name)
 # model = "g"
 
 quiz = pd.read_csv('app/questions/COVIDquiz.csv')
-history = []
 q_count = 0
 
 
 def register_callbacks(dashapp):
     @dashapp.callback(
-        Output("display-conversation", "children"), [Input("store-conversation", "data")]
+        Output("display-conversation", "children"), [Input("store-conversation", "data")], State("store-qcount", "data")
     )
-    def update_display(chat_history):
+    def update_display(chat_history,qcount):
         return [
             # textbox('Saluka', box="self")
-            textbox(x, box="self") if i % 2 == 0 else textbox(x, box="other")
+            textbox(x, box="self") if (i % 2 == 0 or i <= 2 )else textbox(x, box="other")
             for i, x in enumerate(chat_history)
-
-            # for i, x in enumerate(chat_history.split(tokenizer.eos_token)[:-1])
         ]
 
     @dashapp.callback(
-        [Output("store-conversation", "data"), Output("user-input", "value")],
+        [Output("store-conversation", "data"), Output("user-input", "value"), Output("store-qcount", "data")],
         [Input("submit", "n_clicks"), Input("user-input", "n_submit")],
-        [State("user-input", "value"), State("store-conversation", "data")],
+        [State("user-input", "value"), State("store-conversation", "data"), State("store-qcount", "data")],
     )
-    def run_chatbot(n_clicks, n_submit, user_input, chat_history):
-        history.append(user_input)
+    def run_chatbot(n_clicks, n_submit, user_input, chat_history, qcount):
+
+        if qcount == -1:
+            return chat_history, "Refresh to attempt again", -1
+
         if n_clicks == 0:
-            return "", ""
+            return "", "", 0
 
         if user_input is None or user_input == "":
-            return chat_history, ""
+            return chat_history, "", 0
 
         chat_history.append(user_input)
-        # chat_history.append(user_input)
 
-        return chat_history, ""
+        # User confirmation and the first question
+        if qcount == 0:
+            if user_input.lower() != 'yes':
+                chat_history.append('Thank you')
+                return chat_history, "", -1
+            else:
+                q = quiz.loc[qcount]['question']
+                chat_history.append(q)
+                qcount += 1
+                return chat_history, "", qcount
 
-        # # temporary
-        # return chat_history + user_input + "<|endoftext|>" + user_input + "<|endoftext|>", ""
+        print(not(user_input.isnumeric()) ^ (quiz.loc[qcount - 1]['type'] == 'str'))
+        print(user_input.isnumeric() ^ (quiz.loc[qcount - 1]['type'] == 'int'))
+        if (not(user_input.isnumeric()) ^ (quiz.loc[qcount-1]['type'] == 'str') or \
+                user_input.isnumeric() ^ (quiz.loc[qcount - 1]['type'] == 'int')):
+            chat_history.append("Please input a valid answer")
 
-        # encode the new user input, add the eos_token and return a tensor in Pytorch
-        bot_input_ids = tokenizer.encode(
-            chat_history + user_input + tokenizer.eos_token, return_tensors="pt"
-        )
+            return chat_history, "", qcount
 
-        # generated a response while limiting the total chat history to 1000 tokens,
-        # chat_history_ids = model.generate(
-        #     bot_input_ids, max_length=1024, pad_token_id=tokenizer.eos_token_id
-        # )
-        # chat_history = tokenizer.decode(chat_history_ids[0])
+        q = quiz.loc[qcount]['question']
+        chat_history.append(q)
+        qcount += 1
+        return chat_history, "", qcount
 
-        return chat_history, ""
+
 
     # Executed after page loading
     @dashapp.callback(
-        Output("store-conversation", "data"),Output("user-input", "value"),
+        Output("store-conversation", "data"), Output("user-input", "value"),
         [Input('onload_delay', 'n_intervals')],
-        [State("store-conversation", "data"),State('onload_delay', 'disabled')]
+        [State("store-conversation", "data"), State('onload_delay', 'disabled')]
     )
-    def on_load(d,v,f):
+    def on_load(d, v, f):
         print("Loading complete")
         print(d, v, f)
         v.append('Hi! Welcome to our service')
-
-        return v,""
+        v.append('You have to provide some information for testing')
+        v.append('Do you like to continue ?')
+        return v, ""
 
 # def ask(question, valid):
