@@ -28,7 +28,7 @@ def login():
 
     form = LoginForm()
     if form.validate_on_submit():
-        user = User(1,'Admin','passwd')
+        user = User(1, 'Admin', 'passwd')
         if user is None or not user.check_password(form.password.data):
             error = 'Invalid username or password'
             return render_template('login.html', form=form, error=error)

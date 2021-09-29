@@ -1,10 +1,11 @@
 import os
+
 from dash_extensions.enrich import DashProxy, MultiplexerTransform
-#import dash
+# import dash
 from flask import Flask
-from flask.helpers import get_root_path
 from flask_login import login_required
 import dash_bootstrap_components as dbc
+
 
 def create_app():
     server = Flask(__name__)
@@ -16,8 +17,8 @@ def create_app():
     from app.dashboard.callbacks import register_callbacks as register_callbacks1
     from app.dashchat.callbacks import register_callbacks as register_callbacks2
 
-    register_dashapp(server, 'Dashboard', 'dashboard', layout1, register_callbacks1,True)  # Create admin dashboard
-    register_dashapp(server, 'Chat', 'chat', layout2, register_callbacks2,False)  # Create chat page
+    register_dashapp(server, 'Dashboard', 'dashboard', layout1, register_callbacks1, True)  # Create admin dashboard
+    register_dashapp(server, 'Chat', 'chat', layout2, register_callbacks2, False)  # Create chat page
 
     register_extensions(server)
     register_blueprints(server)
@@ -48,7 +49,7 @@ def create_app():
 #     _protect_dashviews(dashapp1)
 
 
-def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun,is_protected):
+def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun, is_protected):
     # Meta tags for viewport responsiveness
     meta_viewport = {"name": "viewport", "content": "width=device-width, initial-scale=1, shrink-to-fit=no"}
 
@@ -62,14 +63,16 @@ def register_dashapp(app, title, base_pathname, layout, register_callbacks_fun,i
                            server=app,
                            external_stylesheets=[dbc.themes.BOOTSTRAP],
                            url_base_pathname=f'/{base_pathname}/',
-                           assets_folder=get_root_path(__name__) + f'/{base_pathname}/assets/',
+                           #assets_folder=get_root_path(__name__) + f'/{base_pathname}/assets/',
+                           assets_folder='static/',
                            meta_tags=[meta_viewport],
-                           prevent_initial_callbacks = True,
-                           transforms = [MultiplexerTransform()])
+                           prevent_initial_callbacks=True,
+                           transforms=[MultiplexerTransform()])
 
     with app.app_context():
         my_dashapp.title = title
         my_dashapp.layout = layout
+        #my_dashapp._favicon = "favicons.co"
         register_callbacks_fun(my_dashapp)
 
     if is_protected:
