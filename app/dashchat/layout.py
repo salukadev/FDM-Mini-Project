@@ -52,10 +52,11 @@ controls = dbc.InputGroup(
 layout = dbc.Container(
     fluid=True,
     children=[
-        html.H1("Dash Chatbot (with DialoGPT)"),
+        html.H1("Chatbot", style={"margin": "auto","text-align" : "center"}),
         html.Hr(),
         dcc.Store(id="store-conversation", data=[]),
         dcc.Store(id="store-qcount", data=0),
+        dcc.Store(id="store-ans", data=[]),
         conversation,
         controls,
         dcc.Interval(
