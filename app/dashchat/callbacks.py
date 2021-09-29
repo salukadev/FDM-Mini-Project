@@ -3,12 +3,17 @@ from flask_login import current_user
 from app.dashchat.layout import textbox
 from transformers import AutoModelWithLMHead, AutoTokenizer
 from dash.dependencies import Input, Output, State
+import pandas as pd
 
 # Define app
 #app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 #server = app.server
 
 # device = "cuda" if torch.cuda.is_available() else "cpu"
+qlist = ["What is today's date?", "What month is it?", "What year is it?", "What day of the week is it today?"]
+
+qdata = pd.read_csv("app\dashchat\questions\COVIDquiz.csv")
+
 device = "cpu"
 print(f"Device: {device}")
 
@@ -18,12 +23,36 @@ tokenizer = AutoTokenizer.from_pretrained(name)
 model = "g"
 
 
-
 print("Done.")
 chat_history = []
+
+
 def register_callbacks(dashapp):
+    # questionnair callback
     @dashapp.callback(
-        Output("display-conversation", "children"), [Input("store-conversation", "data")]
+        Output("modal-centered", "is_open"),
+        [Input("open-centered", "n_clicks"),
+         Input("close-centered", "n_clicks")],
+        [State("modal-centered", "is_open")],
+    )
+    def toggle_modal(n1, n2, is_open):
+        if n1 or n2:
+            return not is_open
+        return is_open
+
+    @dashapp.callback(
+        Output(component_id='body-div', component_property='children'),
+        Input(component_id='ques', component_property='n_clicks')
+    )
+    def update_output(n_clicks):
+        if n_clicks is None:
+            return qdata.iloc[0][0]
+        else:
+            return qdata.iloc[n_clicks][0]
+
+    @dashapp.callback(
+        Output("display-conversation",
+               "children"), [Input("store-conversation", "data")]
     )
     def update_display(chat_history):
         return [
@@ -31,7 +60,7 @@ def register_callbacks(dashapp):
             textbox(x, box="self") if i % 2 == 0 else textbox(x, box="other")
             for i, x in enumerate(chat_history)
 
-            #for i, x in enumerate(chat_history.split(tokenizer.eos_token)[:-1])
+            # for i, x in enumerate(chat_history.split(tokenizer.eos_token)[:-1])
         ]
 
     @dashapp.callback(
@@ -45,7 +74,6 @@ def register_callbacks(dashapp):
 
         if user_input is None or user_input == "":
             return chat_history, ""
-
 
         chat_history.append(user_input)
 
