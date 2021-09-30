@@ -43,6 +43,13 @@ modal = html.Div(
 
                     html.Div([
                         html.Div(id='body-div'),
+                        dcc.Dropdown(
+                                id='dropdown',
+                                options=[
+                                    {'label':i, 'value':i} for i in df['c'].unique()
+                                ],
+                            ),
+                        html.Div(id='output'),
                         html.Button('Next',
                                     id='ques'),
                        
