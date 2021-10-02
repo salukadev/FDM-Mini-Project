@@ -67,6 +67,13 @@ def register_callbacks(dashapp):
 
             return chat_history, "", qcount, ans
 
+        # Check all strings for 'yes' & 'no'
+        if not user_input.isnumeric():
+            if not (user_input.lower() == 'yes' or user_input.lower() == 'no'):
+                chat_history.append("Answer is not clear. Please input again")
+                return chat_history, "", qcount, ans
+
+
         ans.append(user_input)
 
         if qcount == len(quiz):
@@ -86,7 +93,7 @@ def register_callbacks(dashapp):
         [Input('onload_delay', 'n_intervals')],
         [State("store-conversation", "data"), State('onload_delay', 'disabled')]
     )
-    def on_load(d, v, f):
+    def on_load(d,  v, f):
         print("Loading complete")
         print(d, v, f)
         v.append('Hi! Welcome to our service')
@@ -94,4 +101,7 @@ def register_callbacks(dashapp):
         v.append('Do you like to continue ?')
         return v, ""
 
-# def ask(question, valid):
+    @dashapp.callback(Output("user-input", "value"),Input('url', 'pathname'))
+    def test(s):
+        print(s)
+        return ""

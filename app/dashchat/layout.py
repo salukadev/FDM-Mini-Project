@@ -57,6 +57,7 @@ layout = dbc.Container(
         dcc.Store(id="store-conversation", data=[]),
         dcc.Store(id="store-qcount", data=0),
         dcc.Store(id="store-ans", data=[]),
+        dcc.Location(id='url', refresh=False),
         conversation,
         controls,
         dcc.Interval(
