@@ -16,14 +16,14 @@ def textbox(text, box="other"):
         style["margin-left"] = "auto"
         style["margin-right"] = 0
 
-        color = "primary"
+        color = "#00407d"
         inverse = True
 
     elif box == "other":
         style["margin-left"] = 0
         style["margin-right"] = "auto"
 
-        color = "light"
+        color = "rgb(0,64,125, 0.5)"
         inverse = False
 
     else:
@@ -33,10 +33,17 @@ def textbox(text, box="other"):
 
 
 conversation = html.Div(style={
-    'background-color': 'rgba(225, 232, 242, 0.2)',
-    'padding-top': "3rem",
+    'background-color': 'rgba(225, 232, 242, 0.4)',
+    #'background-image': 'url("../static/images/dna.png")',
+    # 'opacity': '0.5',
+    'display': 'block',
+    #'background-size': 'fit',
+    #'background-repeat': 'no-repeat',
+    #'background-size': '300px 50px',
+    'padding-top': "2rem",
     'padding-left': "3rem",
     'padding-right': "3rem",
+    'margin-bottom': "1.75 rem",
     "width": "80%",
     "max-width": "800px",
     "height": "78vh",
@@ -54,7 +61,7 @@ quizmodal = html.Div(
         dbc.Button("Open", id="open-centered"),
         dbc.Modal(
             [
-                dbc.ModalHeader("Header123"),
+                dbc.ModalHeader("MMSE Test", style={"margin": "auto", "text-align": "center"}),
                 dbc.ModalBody(
 
                     html.Div([
@@ -75,7 +82,7 @@ quizmodal = html.Div(
                                        'display': 'block',
                                        'justifyContent': 'center',
                                        'align': 'center',
-                                       'object-fit': 'fill'}
+                                       'object-fit': 'contain'}
                         ),
 
                         dbc.Input(id="quizinput",
@@ -107,7 +114,8 @@ quizmodal = html.Div(
 )
 
 controls = dbc.InputGroup(
-    style={"width": "80%", "max-width": "800px", "margin": "auto"},
+    style={"width": "80%", "max-width": "800px", "margin-left": "auto",
+           "margin-right": "auto", "margin-bottom": "1 rem"},
     children=[
         dbc.Input(id="user-input",
                   placeholder="Write to the chatbot...", type="text"),
@@ -115,35 +123,127 @@ controls = dbc.InputGroup(
             "Submit", id="submit"), addon_type="append",),
     ],
 )
+header = html.Div(
+    style={
+        'background-color': '#00407d',
+        'width': '100%',
+        'height': "auto",
+        "margin-left": '0px',
+        "padding-top": '1rem',
+        "padding-bottom": '1rem',
+    },
+    children=[
+        html.H1('AI-Doc', style={"margin": "auto", "text-align": "center", 'color':'white'}),
+    ]
+)
 
 sidebar = html.Div(
-    style = {
+    style={
         'background-color': 'rgba(225, 232, 242)',
-        'min-width':'20%',
-        'height':"100%",
+        'min-width': '20%',
+        'height': "100%",
     }
 )
+
+list_group = dbc.ListGroup(
+   
+    children = [
+        dbc.ListGroupItem(id = 'rw1'),
+        dbc.ListGroupItem(id = 'rw2'),
+        dbc.ListGroupItem(id = 'rw3'),
+        dbc.ListGroupItem(id = 'rw4'),
+    ]
+)
+
+
 
 # Define Layout
 layout = dbc.Container(
     fluid=True,
     children=[
-        html.H1("Chatbot", style={"margin": "auto", "text-align": "center"}),
-        html.Hr(),
+        #html.H1("Chatbot", style={"margin": "auto", "text-align": "center"}),
+        # html.Hr(),
+        header,
+        html.Div(
+            style={
+                'margin-top': '1rem',
+                "float": "left",
+                'width': '35%',
+                'height': '100%',
+                'background-color': 'rgba(225, 232, 242, 0.4)',
+                'border': '2px solid #ffffff',
+                'border-radius': '10px',
+                '-moz-border-radius': '10px',
+            },
+            children=[
+                html.Br(),
+                html.H3(id='sidetitle', style={
+                        "margin": "auto", "text-align": "center"}),
+                html.Br(),
+                html.Img(
+                    id='sidebarImg',
+                    src='',
+                    style={
+                        'vertical-align': 'middle',
+                        #'padding-top': '2rem',
+                        #'padding-left': '3rem',
+                        'padding': 'auto',
+                        'margin':'auto',
+                        'height': '12rem',
+                        "width": 'auto',
+                        "object-fit": "contain",
+                        'display':'block',
+                        "text-align": "center"
+                    }
+                ),
+                html.Br(),
+                html.Br(),
+                list_group,
+
+                html.Div(
+                    id='sidebarTxt',
+                    style={
+                        'padding-top': '3rem',
+                        'padding-left': '3rem',
+                        'padding-right': '3rem',
+                        'height': '20rem',
+                        "width": 'auto',
+                    }
+                )
+            ]
+        ),
+        html.Div(
+            style={
+                "float": "left",
+                'width': '65%',
+                'height': '100%',
+                # 'background-color': 'blue'
+            },
+            children=[
+                quizmodal,
+                sidebar,
+                conversation,
+                html.Br(),
+                controls,
+                html.Br(),
+            ]
+        ),
         dcc.Store(id="store-conversation", data=[]),
         dcc.Store(id="store-qcount", data=0),
         dcc.Store(id="store-ans", data=[]),
         dcc.Location(id='url', refresh=False),
         dcc.Store(id="quizcount", data=0),
         dcc.Store(id="score", data=0),
-        quizmodal,
-        sidebar,
-        conversation,
-        controls,
+
         dcc.Interval(
             id='onload_delay',
             max_intervals=1,
             interval=1*1000,  # in milliseconds
             n_intervals=0)
     ],
+    style={
+        'padding': '0',
+        'margin': '0',
+        'overflow': 'hidden'
+    }
 )
