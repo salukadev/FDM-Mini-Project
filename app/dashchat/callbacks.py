@@ -1,6 +1,8 @@
 import datetime
 
 import pandas as pd
+import numpy as np
+import pickle
 from flask_login import current_user
 from app.dashchat.layout import textbox
 # from transformers import AutoModelWithLMHead, AutoTokenizer
@@ -18,6 +20,15 @@ quiz = pd.read_csv('app/questions/COVIDquiz.csv')
 qdata = pd.read_csv('app/questions/alzhimersquiz.csv')
 q_count = 0
 
+print("Loading models....")
+# covid-19 models
+tree1 = pickle.load(open("app/models/covid/covid1.sav", 'rb'))
+tree2 = pickle.load(open("app/models/covid/covid2.sav", 'rb'))
+tree3 = pickle.load(open("app/models/covid/covid3.sav", 'rb'))
+
+
+# alzheimer models
+print("Model loading completed")
 
 def register_callbacks(dashapp):
 
@@ -242,13 +253,23 @@ def register_callbacks(dashapp):
                 chat_history.append("Answer is not clear. Please input again")
                 return chat_history, "", qcount, ans
 
-
-        ans.append(user_input)
+        # Input encoding
+        encoded = ''
+        if user_input.lower() == 'yes':
+            encoded = 1
+        elif user_input.lower() == 'no':
+            encoded = 0
+        else:
+            encoded = int(user_input)
+        ans.append(encoded)
 
         if qcount == len(quiz):
             print("Questionnaire completed!")
             print(ans)
             chat_history.append("Questionnaire completed!")
+            rslt = predict_covid(ans)
+            print("Results : ", rslt)
+            chat_history.append(rslt)
             return chat_history, "", qcount, ans
 
         q = quiz.loc[qcount]['question']
@@ -263,7 +284,7 @@ def register_callbacks(dashapp):
         [State("store-conversation", "data"),
          State('onload_delay', 'disabled')]
     )
-    def on_load(d,  v, f):
+    def on_load(d, v, f):
         print("Loading complete")
         print(d, v, f)
         v.append('Hi! Welcome to our service')
@@ -271,7 +292,24 @@ def register_callbacks(dashapp):
         v.append('Do you like to continue ?')
         return v, ""
 
-    @dashapp.callback(Output("user-input", "value"),Input('url', 'pathname'))
+    @dashapp.callback(Output("user-input", "value"), Input('url', 'pathname'))
     def test(s):
         print(s)
         return ""
+
+
+def predict_covid(ans):
+    # age,fever temp,body pain,runny nose, diff breath
+    j = np.array(ans[0:2])  # age,bodypain
+    k = np.array(ans[2:5])  # fever,runny,diffBreath
+    print(j,k)
+    y_pred1 = tree1.predict(j.reshape(1, 2))
+    y_pred2 = tree2.predict(k.reshape(1, 3))
+
+    XL = np.array([y_pred1[0], y_pred2[0]])
+    XL = np.append(j, XL, axis=0)
+    XL = np.append(k, XL, axis=0)
+    XL = pd.DataFrame(XL.reshape(1, 7))
+
+    y_out = tree3.predict(XL)
+    return y_out[0]
