@@ -18,7 +18,7 @@ fig2.update_layout({
 
 
 #data retrieval alzheimer
-alzheimerlength = pd.read_csv(os.getcwd() + "\\app\\datasets\\alzheimer.csv")
+alzheimerlength = pd.read_csv("app/datasets/alzheimer.csv")
 alzheimerdatalength = len(alzheimerlength)
 
 dementedPatients = alzheimerlength[alzheimerlength['Group'].str.contains('Demented')]
@@ -28,7 +28,7 @@ noncritical = alzheimerlength[alzheimerlength['Group'].str.contains('Converted')
 noncritical = len(noncritical)
 
 #data retrieval covid 19
-covidlength = pd.read_csv(os.getcwd() + "\\app\\datasets\\covid-19 symptoms dataset.csv")
+covidlength = pd.read_csv("app/datasets/covid-19 symptoms dataset.csv")
 covidDatalength = len(covidlength)
 
 # covidPatients = covidlength[covidlength['infectionProb'].str.contains(1)]

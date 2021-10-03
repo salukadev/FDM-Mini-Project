@@ -8,7 +8,7 @@ import os
 # plt.style.use('ggplot')
 
 def alzheimer_clusterPlot():
-    dataset = pd.read_csv(os.getcwd() + "\\app\\datasets\\alzheimer.csv")
+    dataset = pd.read_csv("app/datasets/alzheimer.csv")
     dataset = dataset[dataset['Group'].str.contains('Demented')]
 
     dataset = dataset.dropna()
