@@ -277,8 +277,8 @@ def register_callbacks(dashapp):
         print(url)
         # chatbot type
         t = 0
-        sideImg = '../static/images/pen.png'
-        sideTxt = 'THis is alzhimers'
+        sideImg = '../static/images/mental.png'
+        sideTxt = ''
         sideTitle = 'Alzhimers'
         siderw1 = 'Three quarters of people with dementia have not received a diagnosis'
         siderw2 = 'Over 10 millions of new cases of Dimentia reported each year worldwide'
@@ -287,7 +287,7 @@ def register_callbacks(dashapp):
 
         if 'covid' in url.lower():
             t = 1
-            #quiz = q_covid
+            #quiz = q_covidfl
             sideImg = '../static/images/covid.png'
             sideTitle = 'COVID-19'
             sideTxt = ''
