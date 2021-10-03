@@ -1,5 +1,5 @@
 import datetime
-
+import plotly.express as px
 import pandas as pd
 import numpy as np
 import pickle
@@ -9,6 +9,7 @@ from app.dashchat.layout import textbox, mmse_btn
 # from dash.dependencies import Input, Output, State
 import pandas
 from dash_extensions.enrich import Output, Input, State
+from sklearn.cluster import KMeans
 
 # name = "microsoft/DialoGPT-medium"
 # tokenizer = AutoTokenizer.from_pretrained(name)
@@ -145,6 +146,10 @@ def register_callbacks(dashapp):
             chat_history.append("Questionnaire completed!")
             if t == 1:
                 rslt = predict_covid(ans)
+                if rslt == 1:
+                    rslt="High probability"
+                else:
+                    rslt="Low probability"
                 print("Results : ", rslt)
                 chat_history.append(rslt)
             else:
@@ -370,6 +375,30 @@ def register_callbacks(dashapp):
             else:
                 return "Test Completed' to continue", score, '', {'display': 'none'}, '', score, {'display': 'none'}
 
+    @dashapp.callback([Output("cluster-plot", "figure"),Output('rslt_txt', 'children'),Output('cat_txt', 'children'),Output("modal-result", "is_open"),Output('graph-container', 'style')],Input("store-ans", "data"),State('url', 'pathname'))
+    def show_output(ans,url):
+        if ("covid" in url.lower()) and len(ans) == 5:
+            rslt = predict_covid(ans)
+            if rslt == 1:
+                rslt="High probability of covid-19 infection"
+            else:
+                rslt = "Low probability of covid-19 infection"
+            return "", rslt,"", True,{'display':'none'}
+        elif len(ans) == 9:
+            rslt = predict_alz(ans)
+            if rslt == 0:
+                rslt = "Converted"
+            elif rslt == 1:
+                rslt = "Non-demented"
+            else:
+                rslt = "Demented"
+
+            sct, clster = show_scatter(ans)
+            cls = " *Patient's category(cluster) is {}".format(clster)
+            return sct,rslt,cls,True,{'display':'block'}
+        else:
+            return "", "","", False,{'display':'none'}
+
 
 def predict_covid(ans):
     # age,fever temp,body pain,runny nose, diff breath
@@ -393,3 +422,29 @@ def predict_alz(ans):
     ds = np.array([ans[1], ans[0], ans[2], ans[3], ans[8], ans[4], ans[5], ans[6], ans[7]])
     y = model.predict(ds.reshape(1, 9))
     return y[0]
+
+def show_scatter(rslt):
+    data = pd.read_csv('app/datasets/alzheimer.csv')
+    data = data.dropna()
+    data["M/F"].replace({"M": 1}, inplace=True)
+    data["M/F"].replace({"F": 0}, inplace=True)
+
+    #Divide into labels and data
+    X = data.drop("Group", axis=1)
+    y = data["Group"]
+
+    #Select features
+    x = X[['CDR', 'MMSE', 'ASF']].copy()
+    kmeans = KMeans(3)
+    kmeans.fit(x)
+
+    #Predict on user data
+    h = np.array([0.5, 23.0, 0.7])
+    ic = kmeans.predict(h.reshape(1, 3))
+
+    #Output cluster info for existing data
+    kdata = kmeans.fit_predict(x)
+    fig = px.scatter_3d(x, x='CDR', y='MMSE', z='ASF',
+                        color=kdata)
+    return fig, ic[0]
+

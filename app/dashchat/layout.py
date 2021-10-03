@@ -70,7 +70,6 @@ quizmodal = html.Div(
     [
         # dbc.Button("Open", id="open-centered"),
         dbc.Modal(
-
             [
                 dbc.ModalHeader("Mini Mental State Quiz"),
                 dbc.ModalBody(
@@ -124,6 +123,29 @@ quizmodal = html.Div(
     ]
 )
 
+resultmodal = html.Div(
+    [
+        dbc.Modal(
+            [
+                dbc.ModalHeader("Results"),
+                dbc.ModalBody(
+                    html.Div(
+                        [
+                        html.Div([html.H4(id='rslt_txt')], style={"text-align": 'center'}),
+                        html.Div(id="graph-container",
+                                   children =[dcc.Graph(id="cluster-plot")]),
+                        html.Div([html.H5(id='cat_txt')],
+                                 style={"text-align": 'left'})
+                         ]
+                    )
+                ),
+            ],
+            id="modal-result",
+            centered=True,
+        ),
+    ]
+)
+
 controls = dbc.InputGroup(
     style={"width": "80%", "max-width": "800px", "margin": "auto"},
     children=[
@@ -155,6 +177,7 @@ layout = dbc.Container(
         dcc.Store(id="quizcount", data=0),
         dcc.Store(id="score", data=0),
         quizmodal,
+        resultmodal,
         sidebar,
         conversation,
         controls,
