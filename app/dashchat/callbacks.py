@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import pickle
 from flask_login import current_user
-from app.dashchat.layout import textbox
+from app.dashchat.layout import textbox, mmse_btn
 # from transformers import AutoModelWithLMHead, AutoTokenizer
 # from dash.dependencies import Input, Output, State
 import pandas
@@ -14,9 +14,10 @@ from dash_extensions.enrich import Output, Input, State
 # tokenizer = AutoTokenizer.from_pretrained(name)
 # model = "g"
 
-current_time = datetime.datetime.now() 
+current_time = datetime.datetime.now()
 
-quiz = pd.read_csv('app/questions/COVIDquiz.csv')
+q_covid = pd.read_csv('app/questions/COVIDquiz.csv')
+q_alz = pd.read_csv('app/questions/Alz.csv')
 qdata = pd.read_csv('app/questions/alzhimersquiz.csv')
 q_count = 0
 
@@ -26,194 +27,68 @@ tree1 = pickle.load(open("app/models/covid/covid1.sav", 'rb'))
 tree2 = pickle.load(open("app/models/covid/covid2.sav", 'rb'))
 tree3 = pickle.load(open("app/models/covid/covid3.sav", 'rb'))
 
-
 # alzheimer models
 print("Model loading completed")
 
-def register_callbacks(dashapp):
 
+def register_callbacks(dashapp):
     # questionnair modal
     @dashapp.callback(
         [Output("modal-centered", "is_open"),
          Output(component_id='body-div', component_property='children')],
-        [Input("open-centered", "n_clicks"),
-         Input("close-centered", "n_clicks")],
+        Input("open-centered", "n_clicks"),
+
         [State("modal-centered", "is_open")],
     )
-    def toggle_modal(n1, n2, is_open):
-        if n1 or n2:
-            return not is_open, qdata.iloc[0][0]
-        return is_open,
+    def toggle_modal(n1,  is_open):
+        print(is_open)
+        if n1:
+            return True, qdata.iloc[0][0]
+        return False," "
 
-    #quiz - question
-    @dashapp.callback(
-        [Output('body-div', 'children'), Output('score', "data"), Output('quizinput', "value"), Output('img_watch','style'), Output('img_watch','src'),Output('score_output','children'), Output('quizinput', "style")],
-        Input('nextbutton', 'n_clicks'),
-        [State('quizinput', "value"), State('score', "data")]
-    )
-    def update_output(n_clicks, value, score,):
-                
+    @dashapp.callback([Output("user-input", "value"),Output("modal-centered", "is_open")], Input("close-centered", "n_clicks"),State('score', "data"))
+    def fill_mmse(n ,score ):
+        print("Closing modal..")
+        return str(score), False
 
-        if n_clicks == 1:
-            print(score)
-            if value == str(current_time.day):
-                return "What month is it?", score + 1, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "What month is it?", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
-        
-        if n_clicks == 2:
-            print(score)
-            if value == str(current_time.month) or value.lower() == str(current_time.strftime("%B")).lower() or value.lower() == str(current_time.strftime("%b")).lower():
-                return "What year is it?", score + 1, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "What year is it?", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
-
-        if n_clicks == 3:
-            print(score)
-            if value == str(current_time.year):
-                return "What day of the week is it today?", score + 1, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "What day of the week is it today?", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
-
-        if n_clicks == 4:
-            print(score)
-            if value == str(current_time.weekday()) or value.lower() == current_time.strftime('%A').lower() or  value.lower() == current_time.strftime('%A').lower():
-                return "What time is it now to nearest hour? Example: 8", score + 1, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "What time is it now to nearest hour Example: 8",score +  0, '', {'display': 'none'}, '','', {'display': 'block'}
-
-        #fix fix fix answer check
-        if n_clicks == 5: 
-            print(score)
-            if value == str(current_time.weekday()):
-                return "What is the name of this site?", score + 1, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "What is the name of this site?", score + 0, '',{'display': 'none'}, '','', {'display': 'block'}
-        
-        if n_clicks == 6:
-            print(score)
-            if value == 'mmse':
-                return "Remember these words: Ball Car Tree     I'll ask you later", score + 1, '', {'display': 'none'}, '','', {'display': 'none'}
-            else:
-                return "Remember these words: Bill Car Tree     I'll ask you later", score + 0, '', {'display': 'none'}, '','', {'display': 'none'}
-
-        if n_clicks == 7:
-            print(score)
-            if value == 'qer' :
-                return "If you start at 100,and count backwards by 7. What is the number after 5 subtractions?", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "If you start at 100,and count backwards by 7. What is the number after 5 subtractions?", score + 0, '',{'display': 'none'}, '','', {'display': 'block'}
-        if n_clicks == 8:
-            print(score)
-            if value == str(65):
-                return "What are the words mentioned before?", score + 5, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "What are the words mentioned before?", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
-
-        if n_clicks == 9:
-            print(score)
-            li = value.lower().split()
-            if "ball" in li:
-                return "What is this object?", score + 2, '',  {'display': 'block'}, '../static/images/watch.jpg','', {'display': 'block'}
-            if 'tree' in li:
-                return "What is this object?", score + 2, '',  {'display': 'block'}, '../static/images/watch.jpg','', {'display': 'block'}
-            if 'car' in li:
-                return "What is this object?", score + 2, '',  {'display': 'block'}, '../static/images/watch.jpg','', {'display': 'block'}
-            else:
-                return "What is this object?",score +  0, '', {'display': 'block'}, '../static/images/watch.jpg','', {'display': 'block'}
-        
-        if n_clicks == 10:
-            print(score)
-            if value == 'watch' or value == 'wrist watch':
-                return "What is this object?",score +  1, '', {'display': 'block'}, '../static/images/pen3.jpg','', {'display': 'block'}
-            else:
-                return "What is this object?", score + 0, '', {'display': 'block'}, '../static/images/pen3.jpg','', {'display': 'block'}
-
-        if n_clicks == 11:
-            print(score)
-            if value.lower() == 'ball pen' or value.lower() == 'pen':
-                return "Remember the Sentence below", score + 1, '', {'display': 'block'}, '../static/images/sentence.jpg','', {'display': 'none'}
-            else:
-                return "Remember the Sentence below", score + 0, '', {'display': 'block'}, '../static/images/sentence.jpg','', {'display': 'none'}
-
-        if n_clicks == 12:
-            print(score)
-            return "Repeat the sentence", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
-
-        if n_clicks == 13:
-            print(score)
-            if value.lower() == 'no ifs ands or buts':
-                return "What is the number written in the box in your right?",score +  2, '', {'display': 'block'}, '../static/images/leftright.jpg','', {'display': 'block'}
-            else:
-                return "What is the number written in the box in your right?",score +  0, '', {'display': 'block'}, '../static/images/leftright.jpg','', {'display': 'block'}
-        
-        if n_clicks == 14:
-            print(score)
-            if value == '23':
-                return "What is the shape that is similar to the intersection of two shapes in the image?",score +  1, '', {'display': 'block'}, '../static/images/shapes.jpg','', {'display': 'block'}
-            else:
-                return "What is the shape that is similar to the intersection of two shapes in the image?",score +  0, '', {'display': 'block'}, '../static/images/shapes.jpg','', {'display': 'block'}
-
-        if n_clicks == 15:
-            print(score)
-            if value == 'B':
-                return "What is the correct output when the first shape is flipped horizontaly?", score + 2, '', {'display': 'block'}, '../static/images/spatial.jpg',''
-            else:
-                return "What is the correct output when the first shape is flipped horizontaly?", score + 0, '', {'display': 'block'}, '../static/images/spatial.jpg',''
-        
-        if n_clicks == 16:
-            print(score)
-            if value == 'D':
-                return "What are the correct words to fill the blanks?", score + 1, '', {'display': 'block'}, '../static/images/complete.jpg','', {'display': 'block'}
-            else:
-                return "What are the correct words to fill the blanks?", score, '', {'display': 'block'}, '../static/images/complete.jpg','', {'display': 'block'}
-
-        if n_clicks == 17:
-            print(score)
-            li2 = value.lower().split()
-            if 'sitting' in li2:
-                return "What is a rotation of the first object?", score + 1, '', {'display': 'block'}, '../static/images/rotation.jpg','', {'display': 'block'}
-            if 'bench' in li2:
-                return "What is a rotation of the first object?",score +  1, '', {'display': 'block'}, '../static/images/rotation.jpg','', {'display': 'block'}
-            else:
-                return "What is a rotation of the first object?", score , '', {'display': 'block'}, '../static/images/rotation.jpg','', {'display': 'block'}
-        if n_clicks == 18:
-            print(score)
-            li2 = value.lower().split()
-            if value.upper() == 'B':
-                return "Type 'Hello world' to continue", score + 2, '', {'display': 'none'}, '','', {'display': 'block'}
-            else:
-                return "Type 'Hello world' to continue", score, '', {'display': 'none'}, '','', {'display': 'block'}
-
-        if n_clicks == 19:
-            print(score)
-            li2 = value.lower().split()
-            if value.lower() == 'hello world':
-                return "Test Completed", score , '', {'display': 'none'}, '',score, {'display': 'none'}
-            else:
-                return "Test Completed' to continue", score , '', {'display': 'none'}, '',score, {'display': 'none'}
- 
- 
-
+    # Update conversation
     @dashapp.callback(
         Output("display-conversation",
                "children"), [Input("store-conversation", "data")]
     )
     def update_display(chat_history):
-        return [
-            textbox(x, box="self") if (i %
-                                       2 == 0 or i <= 2) else textbox(x, box="other")
-            for i, x in enumerate(chat_history)
-        ]
+        # if chat_history[-1] == 'MMSE':
+        #     return mmse_btn()
+        # return [
+        #     textbox(x, box="self") if (i %
+        #                                2 == 0 or i <= 2) else textbox(x, box="other")
+        #     for i, x in enumerate(chat_history)
+        # ]
+
+        l = []
+        for i, x in enumerate(chat_history):
+            if x =='MMSE':
+                l.append(mmse_btn())
+            elif i % 2 == 0 or i <= 2:
+                l.append(textbox(x, box="self"))
+            else:
+                l.append(textbox(x, box="other"))
+        return l
 
     @dashapp.callback(
         [Output("store-conversation", "data"), Output("user-input", "value"), Output("store-qcount", "data"),
          Output("store-ans", "data")],
         [Input("submit", "n_clicks"), Input("user-input", "n_submit")],
         [State("user-input", "value"), State("store-conversation", "data"), State("store-qcount", "data"),
-         State("store-ans", "data")]
+         State("store-ans", "data"), State('url', 'pathname')]
     )
-    def run_chatbot(n_clicks, n_submit, user_input, chat_history, qcount, ans):
+    def run_chatbot(n_clicks, n_submit, user_input, chat_history, qcount, ans, url):
+        # Check chatbot type
+        t = 0
+        quiz = q_alz
+        if "covid" in url.lower():
+            t = 1
+            quiz = q_covid
 
         if qcount == -1:
             return chat_history, "Refresh to attempt again", -1, []
@@ -241,14 +116,14 @@ def register_callbacks(dashapp):
         # print(user_input.isnumeric() ^ (quiz.loc[qcount - 1]['type'] == 'int'))
 
         # User input validation
-        if (not (user_input.isnumeric()) ^ (quiz.loc[qcount - 1]['type'] == 'str') or
-                user_input.isnumeric() ^ (quiz.loc[qcount - 1]['type'] == 'int')):
+        if (not (user_input.replace('.', '', 1).isnumeric()) ^ (quiz.loc[qcount - 1]['type'] == 'str') or
+                user_input.replace('.', '', 1).isnumeric() ^ (quiz.loc[qcount - 1]['type'] == 'int')):
             chat_history.append("Please input a valid answer")
 
             return chat_history, "", qcount, ans
 
         # Check all strings for 'yes' & 'no'
-        if not user_input.isnumeric():
+        if not user_input.replace('.', '', 1).isnumeric():
             if not (user_input.lower() == 'yes' or user_input.lower() == 'no'):
                 chat_history.append("Answer is not clear. Please input again")
                 return chat_history, "", qcount, ans
@@ -260,16 +135,21 @@ def register_callbacks(dashapp):
         elif user_input.lower() == 'no':
             encoded = 0
         else:
-            encoded = int(user_input)
+            encoded = float(user_input)
         ans.append(encoded)
 
         if qcount == len(quiz):
             print("Questionnaire completed!")
             print(ans)
             chat_history.append("Questionnaire completed!")
-            rslt = predict_covid(ans)
-            print("Results : ", rslt)
-            chat_history.append(rslt)
+            if t == 1:
+                rslt = predict_covid(ans)
+                print("Results : ", rslt)
+                chat_history.append(rslt)
+            else:
+                rslt = predict_alz(ans)
+                print("Results : ", rslt)
+                chat_history.append(rslt)
             return chat_history, "", qcount, ans
 
         q = quiz.loc[qcount]['question']
@@ -282,9 +162,11 @@ def register_callbacks(dashapp):
         Output("store-conversation", "data"), Output("user-input", "value"),
         [Input('onload_delay', 'n_intervals')],
         [State("store-conversation", "data"),
-         State('onload_delay', 'disabled')]
+         State('onload_delay', 'disabled'), State('url', 'pathname')]
     )
-    def on_load(d, v, f):
+    def on_load(d, v, f, url):
+        if "covid" in url.lower():
+            print("Covid application")
         print("Loading complete")
         print(d, v, f)
         v.append('Hi! Welcome to our service')
@@ -292,17 +174,201 @@ def register_callbacks(dashapp):
         v.append('Do you like to continue ?')
         return v, ""
 
-    @dashapp.callback(Output("user-input", "value"), Input('url', 'pathname'))
-    def test(s):
-        print(s)
-        return ""
+    # @dashapp.callback(Output("user-input", "value"), Input('url', 'pathname'))
+    # def test(s):
+    #     print(type(s))
+    #     return ""
+
+    # quiz - question
+    @dashapp.callback(
+        [Output('body-div', 'children'), Output('score', "data"), Output('quizinput', "value"),
+         Output('img_watch', 'style'), Output('img_watch', 'src'), Output('score_output', 'children'),
+         Output('quizinput', "style")],
+        Input('nextbutton', 'n_clicks'),
+        [State('quizinput', "value"), State('score', "data")]
+    )
+    def update_output(n_clicks, value, score, ):
+        if n_clicks == 1:
+            print(score)
+            if value == str(current_time.day):
+                return "What month is it?", score + 1, '', {'display': 'none'}, '', '', {'display': 'block'}
+            else:
+                return "What month is it?", score + 0, '', {'display': 'none'}, '', '', {'display': 'block'}
+
+        if n_clicks == 2:
+            print(score)
+            if value == str(current_time.month) or value.lower() == str(
+                    current_time.strftime("%B")).lower() or value.lower() == str(
+                current_time.strftime("%b")).lower():
+                return "What year is it?", score + 1, '', {'display': 'none'}, '', '', {'display': 'block'}
+            else:
+                return "What year is it?", score + 0, '', {'display': 'none'}, '', '', {'display': 'block'}
+
+        if n_clicks == 3:
+            print(score)
+            if value == str(current_time.year):
+                return "What day of the week is it today?", score + 1, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+            else:
+                return "What day of the week is it today?", score + 0, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+
+        if n_clicks == 4:
+            print(score)
+            if value == str(current_time.weekday()) or value.lower() == current_time.strftime(
+                    '%A').lower() or value.lower() == current_time.strftime('%A').lower():
+                return "What time is it now to nearest hour? Example: 8", score + 1, '', {
+                    'display': 'none'}, '', '', {'display': 'block'}
+            else:
+                return "What time is it now to nearest hour Example: 8", score + 0, '', {
+                    'display': 'none'}, '', '', {'display': 'block'}
+
+        # fix fix fix answer check
+        if n_clicks == 5:
+            print(score)
+            if value == str(current_time.weekday()):
+                return "What is the name of this site?", score + 1, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+            else:
+                return "What is the name of this site?", score + 0, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+
+        if n_clicks == 6:
+            print(score)
+            if value == 'mmse':
+                return "Remember these words: Ball Car Tree     I'll ask you later", score + 1, '', {
+                    'display': 'none'}, '', '', {'display': 'none'}
+            else:
+                return "Remember these words: Bill Car Tree     I'll ask you later", score + 0, '', {
+                    'display': 'none'}, '', '', {'display': 'none'}
+
+        if n_clicks == 7:
+            print(score)
+            if value == 'qer':
+                return "If you start at 100,and count backwards by 7. What is the number after 5 subtractions?", score + 0, '', {
+                    'display': 'none'}, '', '', {'display': 'block'}
+            else:
+                return "If you start at 100,and count backwards by 7. What is the number after 5 subtractions?", score + 0, '', {
+                    'display': 'none'}, '', '', {'display': 'block'}
+        if n_clicks == 8:
+            print(score)
+            if value == str(65):
+                return "What are the words mentioned before?", score + 5, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+            else:
+                return "What are the words mentioned before?", score + 0, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+
+        if n_clicks == 9:
+            print(score)
+            li = value.lower().split()
+            if "ball" in li:
+                return "What is this object?", score + 2, '', {
+                    'display': 'block'}, '../static/images/watch.jpg', '', {'display': 'block'}
+            if 'tree' in li:
+                return "What is this object?", score + 2, '', {
+                    'display': 'block'}, '../static/images/watch.jpg', '', {'display': 'block'}
+            if 'car' in li:
+                return "What is this object?", score + 2, '', {
+                    'display': 'block'}, '../static/images/watch.jpg', '', {'display': 'block'}
+            else:
+                return "What is this object?", score + 0, '', {
+                    'display': 'block'}, '../static/images/watch.jpg', '', {'display': 'block'}
+
+        if n_clicks == 10:
+            print(score)
+            if value == 'watch' or value == 'wrist watch':
+                return "What is this object?", score + 1, '', {
+                    'display': 'block'}, '../static/images/pen3.jpg', '', {'display': 'block'}
+            else:
+                return "What is this object?", score + 0, '', {
+                    'display': 'block'}, '../static/images/pen3.jpg', '', {'display': 'block'}
+
+        if n_clicks == 11:
+            print(score)
+            if value.lower() == 'ball pen' or value.lower() == 'pen':
+                return "Remember the Sentence below", score + 1, '', {
+                    'display': 'block'}, '../static/images/sentence.jpg', '', {'display': 'none'}
+            else:
+                return "Remember the Sentence below", score + 0, '', {
+                    'display': 'block'}, '../static/images/sentence.jpg', '', {'display': 'none'}
+
+        if n_clicks == 12:
+            print(score)
+            return "Repeat the sentence", score + 0, '', {'display': 'none'}, '', '', {'display': 'block'}
+
+        if n_clicks == 13:
+            print(score)
+            if value.lower() == 'no ifs ands or buts':
+                return "What is the number written in the box in your right?", score + 2, '', {
+                    'display': 'block'}, '../static/images/leftright.jpg', '', {'display': 'block'}
+            else:
+                return "What is the number written in the box in your right?", score + 0, '', {
+                    'display': 'block'}, '../static/images/leftright.jpg', '', {'display': 'block'}
+
+        if n_clicks == 14:
+            print(score)
+            if value == '23':
+                return "What is the shape that is similar to the intersection of two shapes in the image?", score + 1, '', {
+                    'display': 'block'}, '../static/images/shapes.jpg', '', {'display': 'block'}
+            else:
+                return "What is the shape that is similar to the intersection of two shapes in the image?", score + 0, '', {
+                    'display': 'block'}, '../static/images/shapes.jpg', '', {'display': 'block'}
+
+        if n_clicks == 15:
+            print(score)
+            if value == 'B':
+                return "What is the correct output when the first shape is flipped horizontaly?", score + 2, '', {
+                    'display': 'block'}, '../static/images/spatial.jpg', ''
+            else:
+                return "What is the correct output when the first shape is flipped horizontaly?", score + 0, '', {
+                    'display': 'block'}, '../static/images/spatial.jpg', ''
+
+        if n_clicks == 16:
+            print(score)
+            if value == 'D':
+                return "What are the correct words to fill the blanks?", score + 1, '', {
+                    'display': 'block'}, '../static/images/complete.jpg', '', {'display': 'block'}
+            else:
+                return "What are the correct words to fill the blanks?", score, '', {
+                    'display': 'block'}, '../static/images/complete.jpg', '', {'display': 'block'}
+
+        if n_clicks == 17:
+            print(score)
+            li2 = value.lower().split()
+            if 'sitting' in li2:
+                return "What is a rotation of the first object?", score + 1, '', {
+                    'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+            if 'bench' in li2:
+                return "What is a rotation of the first object?", score + 1, '', {
+                    'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+            else:
+                return "What is a rotation of the first object?", score, '', {
+                    'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+        if n_clicks == 18:
+            print(score)
+            li2 = value.lower().split()
+            if value.upper() == 'B':
+                return "Type 'Hello world' to continue", score + 2, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+            else:
+                return "Type 'Hello world' to continue", score, '', {'display': 'none'}, '', '', {
+                    'display': 'block'}
+
+        if n_clicks == 19:
+            print(score)
+            li2 = value.lower().split()
+            if value.lower() == 'hello world':
+                return "Test Completed", score, '', {'display': 'none'}, '', score, {'display': 'none'}
+            else:
+                return "Test Completed' to continue", score, '', {'display': 'none'}, '', score, {'display': 'none'}
 
 
 def predict_covid(ans):
     # age,fever temp,body pain,runny nose, diff breath
     j = np.array(ans[0:2])  # age,bodypain
     k = np.array(ans[2:5])  # fever,runny,diffBreath
-    print(j,k)
+    print(j, k)
     y_pred1 = tree1.predict(j.reshape(1, 2))
     y_pred2 = tree2.predict(k.reshape(1, 3))
 
@@ -313,3 +379,7 @@ def predict_covid(ans):
 
     y_out = tree3.predict(XL)
     return y_out[0]
+
+
+def predict_alz(ans):
+    print(ans)

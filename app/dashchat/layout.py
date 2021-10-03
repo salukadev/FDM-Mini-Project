@@ -31,6 +31,23 @@ def textbox(text, box="other"):
 
     return dbc.Card(text, style=style, body=True, color=color, inverse=inverse)
 
+def mmse_btn():
+    style = {
+        "max-width": "55%",
+        "width": "max-content",
+        "padding": "10px 15px",
+        "border-radius": "15px",
+        "margin-bottom": "5px"
+    }
+
+    style["margin-left"] = "auto"
+    style["margin-right"] = 0
+
+    color = "primary"
+    inverse = True
+
+    return dbc.Card(dbc.Button("Take Quiz", id="open-centered",color=color), style=style, body=True, color=color, inverse=inverse)
+
 
 conversation = html.Div(style={
     'background-color': 'rgba(225, 232, 242, 0.2)',
@@ -51,10 +68,11 @@ conversation = html.Div(style={
 
 quizmodal = html.Div(
     [
-        dbc.Button("Open", id="open-centered"),
+        # dbc.Button("Open", id="open-centered"),
         dbc.Modal(
+
             [
-                dbc.ModalHeader("Header123"),
+                dbc.ModalHeader("Mini Mental State Quiz"),
                 dbc.ModalBody(
 
                     html.Div([
@@ -66,7 +84,7 @@ quizmodal = html.Div(
                                 id="img_watch",
                                 src='',
                                 height='200px',
-                                width='300px',
+                                width='200px',
                                 style={'height': '10 rem', 'width': '10 rem', 'display': 'none'})
                              ], style={'max-height': '20rem',
                                        'max-width': '20rem',
@@ -101,7 +119,7 @@ quizmodal = html.Div(
             ],
             id="modal-centered",
             centered=True,
-
+            backdrop="static",
         ),
     ]
 )
