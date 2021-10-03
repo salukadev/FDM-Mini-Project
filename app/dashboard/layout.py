@@ -92,7 +92,7 @@ layout = html.Div(id='main', children=[
             label="More",
         ),
     ],
-    brand="HealthGO Dasboard",
+    brand="AI Doc Dasboard",
     brand_href="#",
     color="black",
     dark=True,
@@ -163,7 +163,7 @@ layout = html.Div(id='main', children=[
             dbc.Card(
                 dbc.CardBody(
                     [
-                        html.H4("Title", className="card-title"),
+                        html.H4("", className="card-title"),
                         html.P(
                             "Alzheimer's is the most common cause of dementia, a general term for memory loss and other cognitive abilities serious enough to interfere with daily life. Alzheimer's disease accounts for 60-80% of dementia cases.Alzheimer's is not a normal part of aging. The greatest known risk factor is increasing age, and the majority of people with Alzheimer's are 65 and older. Alzheimer’s disease is considered to be younger-onset Alzheimer’s if it affects a person under 65. Younger-onset can also be referred to as early-onset Alzheimer’s. People with younger-onset Alzheimer’s can be in the early, middle or late stage of the disease.",
                             className="card-text",
