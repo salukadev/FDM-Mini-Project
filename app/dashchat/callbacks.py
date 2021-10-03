@@ -28,6 +28,7 @@ tree2 = pickle.load(open("app/models/covid/covid2.sav", 'rb'))
 tree3 = pickle.load(open("app/models/covid/covid3.sav", 'rb'))
 
 # alzheimer models
+model = pickle.load(open("app/models/alz/alz.sav", 'rb'))
 print("Model loading completed")
 
 
@@ -148,6 +149,12 @@ def register_callbacks(dashapp):
                 chat_history.append(rslt)
             else:
                 rslt = predict_alz(ans)
+                if rslt==0:
+                    rslt="Converted"
+                elif rslt==1:
+                    rslt = "Non-demented"
+                else:
+                    rslt = "Demented"
                 print("Results : ", rslt)
                 chat_history.append(rslt)
             return chat_history, "", qcount, ans
@@ -382,4 +389,7 @@ def predict_covid(ans):
 
 
 def predict_alz(ans):
-    print(ans)
+    # sex,age,educ, ses, mmse, cdr, eyiv, mwbv, asf
+    ds = np.array([ans[1], ans[0], ans[2], ans[3], ans[8], ans[4], ans[5], ans[6], ans[7]])
+    y = model.predict(ds.reshape(1, 9))
+    return y[0]

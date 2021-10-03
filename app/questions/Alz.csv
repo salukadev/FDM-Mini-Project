@@ -1,8 +1,10 @@
 question,type
 How old are you?,int
 Are you a male? ,str
+Years of education?,int
 Socioeconomic status (1-5)?,int
 Clinical dementia rating(0-1)?,int
+Estimated total intracranial volume?,int
 Normalized whole brain volume?,int
 Atlas scaling factor,int
 MMSE,int
