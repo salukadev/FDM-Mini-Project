@@ -95,9 +95,9 @@ def register_callbacks(dashapp):
         if n_clicks == 8:
             print(score)
             if value == str(65):
-                return "What are the words mentioned before?", score + 5, '', {'display': 'block'}, '','', {'display': 'block'}
+                return "What are the words mentioned before?", score + 5, '', {'display': 'none'}, '','', {'display': 'block'}
             else:
-                return "What are the words mentioned before?", score + 0, '', {'display': 'block'}, '','', {'display': 'block'}
+                return "What are the words mentioned before?", score + 0, '', {'display': 'none'}, '','', {'display': 'block'}
 
         if n_clicks == 9:
             print(score)

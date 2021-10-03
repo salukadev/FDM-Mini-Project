@@ -67,13 +67,14 @@ quizmodal = html.Div(
                                        'width':'auto', 
                                        'display': 'block', 
                                        'justifyContent': 'center',
+                                       'align': 'center',
                                        'object-fit': 'fill'}
                         ),
 
                         dbc.Input(id="quizinput",
                                   placeholder="Type something...", type="text"),
-
-                        html.H4(id='score_output'),
+                        html.Div([html.H4(id='score_output')],style = {"text-align":'center'}),
+                        
                         html.Br(),
                         html.Button('Next', id='nextbutton', n_clicks=0,),
 
