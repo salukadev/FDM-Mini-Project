@@ -280,10 +280,10 @@ def register_callbacks(dashapp):
         sideImg = '../static/images/pen.png'
         sideTxt = 'THis is alzhimers'
         sideTitle = 'Alzhimers'
-        siderw1 = 'Total reported cases : 235 537 526'
-        siderw2 = 'New Cases : +140 752'
-        siderw4 = 'Total Deaths : 4 813 806 '
-        siderw3 = 'Total Recovered : 212 398 206'
+        siderw1 = 'Three quarters of people with dementia have not received a diagnosis'
+        siderw2 = 'Over 10 millions of new cases of Dimentia reported each year worldwide'
+        siderw4 = 'Global annual cost of Dimentia is above US$ 1.3 trillion '
+        siderw3 = 'Global annual cost of Dimentia expected to rise to US$ 2.8 trillion by 2050'
 
         if 'covid' in url.lower():
             t = 1
