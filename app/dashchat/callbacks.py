@@ -46,10 +46,10 @@ def register_callbacks(dashapp):
         print(is_open)
         if n1:
             return True, qdata.iloc[0][0]
-        return False," "
+        return False, " "
 
-    @dashapp.callback([Output("user-input", "value"),Output("modal-centered", "is_open")], Input("close-centered", "n_clicks"),State('score', "data"))
-    def fill_mmse(n ,score ):
+    @dashapp.callback([Output("user-input", "value"), Output("modal-centered", "is_open")], Input("close-centered", "n_clicks"), State('score', "data"))
+    def fill_mmse(n, score):
         print("Closing modal..")
         return str(score), False
 
@@ -69,7 +69,7 @@ def register_callbacks(dashapp):
 
         l = []
         for i, x in enumerate(chat_history):
-            if x =='MMSE':
+            if x == 'MMSE':
                 l.append(mmse_btn())
             elif i % 2 == 0 or i <= 2:
                 l.append(textbox(x, box="self"))
@@ -147,16 +147,16 @@ def register_callbacks(dashapp):
             if t == 1:
                 rslt = predict_covid(ans)
                 if rslt == 1:
-                    rslt="High probability"
+                    rslt = "High probability"
                 else:
-                    rslt="Low probability"
+                    rslt = "Low probability"
                 print("Results : ", rslt)
                 chat_history.append(rslt)
             else:
                 rslt = predict_alz(ans)
-                if rslt==0:
-                    rslt="Converted"
-                elif rslt==1:
+                if rslt == 0:
+                    rslt = "Converted"
+                elif rslt == 1:
                     rslt = "Non-demented"
                 else:
                     rslt = "Demented"
@@ -194,7 +194,8 @@ def register_callbacks(dashapp):
     # quiz - question
     @dashapp.callback(
         [Output('body-div', 'children'), Output('score', "data"), Output('quizinput', "value"),
-         Output('img_watch', 'style'), Output('img_watch', 'src'), Output('score_output', 'children'),
+         Output('img_watch', 'style'), Output('img_watch',
+                                              'src'), Output('score_output', 'children'),
          Output('quizinput', "style")],
         Input('nextbutton', 'n_clicks'),
         [State('quizinput', "value"), State('score', "data")]
@@ -210,19 +211,19 @@ def register_callbacks(dashapp):
         if n_clicks == 2:
             print(score)
             if value == str(current_time.month) or value.lower() == str(
-                    current_time.strftime("%B")).lower() or value.lower() == str(
-                current_time.strftime("%b")).lower():
-                return "What year is it?", score + 1, '', {'display': 'none'}, '', '', {'display': 'block'}
+                current_time.strftime("%B")).lower() or value.lower() == str(
+                    current_time.strftime("%b")).lower():
+                return "What year is it? Ex:1992", score + 1, '', {'display': 'none'}, '', '', {'display': 'block'}
             else:
-                return "What year is it?", score + 0, '', {'display': 'none'}, '', '', {'display': 'block'}
+                return "What year is it? Ex:1992", score + 0, '', {'display': 'none'}, '', '', {'display': 'block'}
 
         if n_clicks == 3:
             print(score)
             if value == str(current_time.year):
-                return "What day of the week is it today?", score + 1, '', {'display': 'none'}, '', '', {
+                return "What day of the week is it today? Ex: Sunday", score + 1, '', {'display': 'none'}, '', '', {
                     'display': 'block'}
             else:
-                return "What day of the week is it today?", score + 0, '', {'display': 'none'}, '', '', {
+                return "What day of the week is it today? Ex: Sunday", score + 0, '', {'display': 'none'}, '', '', {
                     'display': 'block'}
 
         if n_clicks == 4:
@@ -312,60 +313,49 @@ def register_callbacks(dashapp):
         if n_clicks == 13:
             print(score)
             if value.lower() == 'no ifs ands or buts':
-                return "What is the number written in the box in your right?", score + 2, '', {
-                    'display': 'block'}, '../static/images/leftright.jpg', '', {'display': 'block'}
+                return "What is the number written in the box in your right?", score + 2, '', {'display': 'block'}, '../static/images/leftright.jpg', '', {'display': 'block'}
             else:
-                return "What is the number written in the box in your right?", score + 0, '', {
-                    'display': 'block'}, '../static/images/leftright.jpg', '', {'display': 'block'}
+                return "What is the number written in the box in your right?", score + 0, '', {'display': 'block'}, '../static/images/leftright.jpg', '', {'display': 'block'}
 
         if n_clicks == 14:
             print(score)
             if value == '23':
-                return "What is the shape that is similar to the intersection of two shapes in the image?", score + 1, '', {
-                    'display': 'block'}, '../static/images/shapes.jpg', '', {'display': 'block'}
+                return "What is the shape that is similar to the intersection of two shapes in the image?", score + 1, '', {'display': 'block'}, '../static/images/shapes.jpg', '', {'display': 'block'}
             else:
-                return "What is the shape that is similar to the intersection of two shapes in the image?", score + 0, '', {
-                    'display': 'block'}, '../static/images/shapes.jpg', '', {'display': 'block'}
+                return "What is the shape that is similar to the intersection of two shapes in the image?", score + 0, '', {'display': 'block'}, '../static/images/shapes.jpg', '', {'display': 'block'}
 
         if n_clicks == 15:
             print(score)
             if value == 'B':
-                return "What is the correct output when the first shape is flipped horizontaly?", score + 2, '', {
-                    'display': 'block'}, '../static/images/spatial.jpg', ''
+                return "What is the correct output when the first shape is flipped horizontaly?", score + 2, '', {'display': 'block'}, '../static/images/spatial.jpg', ''
             else:
-                return "What is the correct output when the first shape is flipped horizontaly?", score + 0, '', {
-                    'display': 'block'}, '../static/images/spatial.jpg', ''
+                return "What is the correct output when the first shape is flipped horizontaly?", score + 0, '', {'display': 'block'}, '../static/images/spatial.jpg', ''
 
         if n_clicks == 16:
             print(score)
             if value == 'D':
-                return "What are the correct words to fill the blanks?", score + 1, '', {
-                    'display': 'block'}, '../static/images/complete.jpg', '', {'display': 'block'}
+                return "What are the correct words to fill the blanks?", score + 1, '', {'display': 'block'}, '../static/images/complete.jpg', '', {'display': 'block'}
             else:
-                return "What are the correct words to fill the blanks?", score, '', {
-                    'display': 'block'}, '../static/images/complete.jpg', '', {'display': 'block'}
+                return "What are the correct words to fill the blanks?", score, '', {'display': 'block'}, '../static/images/complete.jpg', '', {'display': 'block'}
 
         if n_clicks == 17:
             print(score)
             li2 = value.lower().split()
             if 'sitting' in li2:
-                return "What is a rotation of the first object?", score + 1, '', {
-                    'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+                return "What is a rotation of the first object?", score + 1, '', {'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
             if 'bench' in li2:
-                return "What is a rotation of the first object?", score + 1, '', {
-                    'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+                return "What is a rotation of the first object?", score + 1, '', {'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
             else:
-                return "What is a rotation of the first object?", score, '', {
-                    'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+                return "What is a rotation of the first object?", score, '', {'display': 'block'}, '../static/images/rotation.jpg', '', {'display': 'block'}
+
         if n_clicks == 18:
             print(score)
+
             li2 = value.lower().split()
             if value.upper() == 'B':
-                return "Type 'Hello world' to continue", score + 2, '', {'display': 'none'}, '', '', {
-                    'display': 'block'}
+                return "Type 'Hello world' to continue", score + 2, '', {'display': 'none'}, '', '', {'display': 'block'}
             else:
-                return "Type 'Hello world' to continue", score, '', {'display': 'none'}, '', '', {
-                    'display': 'block'}
+                return "Type 'Hello world' to continue", score, '', {'display': 'none'}, '', '', {'display': 'block'}
 
         if n_clicks == 19:
             print(score)
@@ -373,17 +363,17 @@ def register_callbacks(dashapp):
             if value.lower() == 'hello world':
                 return "Test Completed", score, '', {'display': 'none'}, '', score, {'display': 'none'}
             else:
-                return "Test Completed' to continue", score, '', {'display': 'none'}, '', score, {'display': 'none'}
+                return "Test Completed", score, '', {'display': 'none'}, '', score, {'display': 'none'}
 
-    @dashapp.callback([Output("cluster-plot", "figure"),Output('rslt_txt', 'children'),Output('cat_txt', 'children'),Output("modal-result", "is_open"),Output('graph-container', 'style')],Input("store-ans", "data"),State('url', 'pathname'))
-    def show_output(ans,url):
+    @dashapp.callback([Output("cluster-plot", "figure"), Output('rslt_txt', 'children'), Output('cat_txt', 'children'), Output("modal-result", "is_open"), Output('graph-container', 'style')], Input("store-ans", "data"), State('url', 'pathname'))
+    def show_output(ans, url):
         if ("covid" in url.lower()) and len(ans) == 5:
             rslt = predict_covid(ans)
             if rslt == 1:
-                rslt="High probability of covid-19 infection"
+                rslt = "High probability of covid-19 infection"
             else:
                 rslt = "Low probability of covid-19 infection"
-            return "", rslt,"", True,{'display':'none'}
+            return "", rslt, "", True, {'display': 'none'}
         elif len(ans) == 9:
             rslt = predict_alz(ans)
             if rslt == 0:
@@ -395,9 +385,34 @@ def register_callbacks(dashapp):
 
             sct, clster = show_scatter(ans)
             cls = " *Patient's category(cluster) is {}".format(clster)
-            return sct,rslt,cls,True,{'display':'block'}
+            return sct, rslt, cls, True, {'display': 'block'}
         else:
-            return "", "","", False,{'display':'none'}
+            return "", "", "", False, {'display': 'none'}
+
+    @dashapp.callback(Output("sidebarImg", "src"), Output("sidebarTxt", "children"), Output("sidetitle", "children"), Output("rw1", "children"), Output("rw2", "children"), Output("rw3", "children"), Output("rw4", "children"), Input('url', 'pathname'))
+    def getpath(url):
+        print(url)
+        # chatbot type
+        t = 0
+        sideImg = '../static/images/mental.png'
+        sideTxt = ''
+        sideTitle = 'Alzhimers'
+        siderw1 = 'Three quarters of people with dementia have not received a diagnosis'
+        siderw2 = 'Over 10 millions of new cases of Dimentia reported each year worldwide'
+        siderw4 = 'Global annual cost of Dimentia is above US$ 1.3 trillion '
+        siderw3 = 'Global annual cost of Dimentia expected to rise to US$ 2.8 trillion by 2050'
+
+        if 'covid' in url.lower():
+            t = 1
+            #quiz = q_covidfl
+            sideImg = '../static/images/covid.png'
+            sideTitle = 'COVID-19'
+            sideTxt = ''
+            siderw1 = 'Total reported cases : 235 537 526'
+            siderw2 = 'New Cases : +140 752'
+            siderw4 = 'Total Deaths : 4 813 806 '
+            siderw3 = 'Total Recovered : 212 398 206'
+        return sideImg, sideTxt, sideTitle, siderw1, siderw2, siderw3, siderw4
 
 
 def predict_covid(ans):
@@ -419,9 +434,11 @@ def predict_covid(ans):
 
 def predict_alz(ans):
     # sex,age,educ, ses, mmse, cdr, eyiv, mwbv, asf
-    ds = np.array([ans[1], ans[0], ans[2], ans[3], ans[8], ans[4], ans[5], ans[6], ans[7]])
+    ds = np.array([ans[1], ans[0], ans[2], ans[3],
+                  ans[8], ans[4], ans[5], ans[6], ans[7]])
     y = model.predict(ds.reshape(1, 9))
     return y[0]
+
 
 def show_scatter(rslt):
     data = pd.read_csv('app/datasets/alzheimer.csv')
@@ -429,22 +446,21 @@ def show_scatter(rslt):
     data["M/F"].replace({"M": 1}, inplace=True)
     data["M/F"].replace({"F": 0}, inplace=True)
 
-    #Divide into labels and data
+    # Divide into labels and data
     X = data.drop("Group", axis=1)
     y = data["Group"]
 
-    #Select features
+    # Select features
     x = X[['CDR', 'MMSE', 'ASF']].copy()
     kmeans = KMeans(3)
     kmeans.fit(x)
 
-    #Predict on user data
+    # Predict on user data
     h = np.array([0.5, 23.0, 0.7])
     ic = kmeans.predict(h.reshape(1, 3))
 
-    #Output cluster info for existing data
+    # Output cluster info for existing data
     kdata = kmeans.fit_predict(x)
     fig = px.scatter_3d(x, x='CDR', y='MMSE', z='ASF',
                         color=kdata)
     return fig, ic[0]
-
