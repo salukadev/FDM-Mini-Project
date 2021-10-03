@@ -33,12 +33,19 @@ def textbox(text, box="other"):
 
 
 conversation = html.Div(style={
+    'background-color': 'rgba(225, 232, 242, 0.2)',
+    'padding-top': "3rem",
+    'padding-left': "3rem",
+    'padding-right': "3rem",
     "width": "80%",
     "max-width": "800px",
     "height": "78vh",
     "margin": "auto",
     "overflow-y": "auto",
     "padding": "10px 5px",
+    'border': '2px solid #e1e8f2',
+    'border-radius': '15px',
+    '-moz-border-radius': '15px',
 },
     id="display-conversation",)
 
@@ -58,14 +65,14 @@ quizmodal = html.Div(
                             [html.Img(
                                 id="img_watch",
                                 src='',
-                                height = '200px',
-                                width = '300px',
+                                height='200px',
+                                width='300px',
                                 style={'height': '10 rem', 'width': '10 rem', 'display': 'none'})
                              ], style={'max-height': '20rem',
                                        'max-width': '20rem',
-                                       'height':'auto',
-                                       'width':'auto', 
-                                       'display': 'block', 
+                                       'height': 'auto',
+                                       'width': 'auto',
+                                       'display': 'block',
                                        'justifyContent': 'center',
                                        'align': 'center',
                                        'object-fit': 'fill'}
@@ -73,8 +80,9 @@ quizmodal = html.Div(
 
                         dbc.Input(id="quizinput",
                                   placeholder="Type something...", type="text"),
-                        html.Div([html.H4(id='score_output')],style = {"text-align":'center'}),
-                        
+                        html.Div([html.H4(id='score_output')],
+                                 style={"text-align": 'center'}),
+
                         html.Br(),
                         html.Button('Next', id='nextbutton', n_clicks=0,),
 
@@ -108,6 +116,14 @@ controls = dbc.InputGroup(
     ],
 )
 
+sidebar = html.Div(
+    style = {
+        'background-color': 'rgba(225, 232, 242)',
+        'min-width':'20%',
+        'height':"100%",
+    }
+)
+
 # Define Layout
 layout = dbc.Container(
     fluid=True,
@@ -121,6 +137,7 @@ layout = dbc.Container(
         dcc.Store(id="quizcount", data=0),
         dcc.Store(id="score", data=0),
         quizmodal,
+        sidebar,
         conversation,
         controls,
         dcc.Interval(
