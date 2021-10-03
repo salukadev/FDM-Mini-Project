@@ -48,6 +48,7 @@
 .header-dark .navbar .navbar-brand {
   font-weight:bold;
   color:inherit;
+  font-size: 25px;
 }
 
 .header-dark .navbar .navbar-brand:hover {
@@ -190,12 +191,14 @@
   padding: 10px;
 }
 .grid-item {
+  
   background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  border: 1px solid rgba(255, 255, 255);
+  padding: 40px 20px 30px 20px;
   margin:30px;
   font-size: 30px;
   text-align: center;
+  border-radius: 15px;
 }
 
 .button4 {border-radius: 12px;}
@@ -298,8 +301,21 @@
   display: block;
 }
 
+.button{
+  margin-top: 10px;
+  font-size: 22px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  background-color: rgba(0,64,125, 0.6);
+  border: none;
+}
 
 .btn-primary {
+  font-size: 20px;
+  padding-left: 3rem;
+  padding-right: 3rem;
   background: #F85A16;
   color: #fff;
   border: 2px solid #F85A16;
@@ -317,6 +333,9 @@
   background: #F85A16;
   color: #fff;
 }
+.h2{
+  margin-bottom: 20px;
+}
 
     </style>
 </head>
@@ -325,18 +344,18 @@
     <div>
         <div class="header-dark">
             <nav class="navbar navbar-dark navbar-expand-md navigation-clean-search">
-                <div class="container"><a class="navbar-brand" href="#">HealthyGO</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="container"><a class="navbar-brand" href="#">AI-Doc</a><button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse"
                         id="navcol-1">
                         <ul class="nav navbar-nav">
-                            <li class="nav-item" role="presentation"><a class="nav-link" href="#">Dashboard</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" href="/dashboard">Dashboard</a></li>
                             <li class="dropdown"><a class="dropdown-toggle nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">Get Tested </a>
-                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="#">Alzheimer test</a><a class="dropdown-item" role="presentation" href="#">Covid-19 test</a></div>
+                                <div class="dropdown-menu" role="menu"><a class="dropdown-item" role="presentation" href="/chat/alzhimers">Alzheimer test</a><a class="dropdown-item" role="presentation" href="/chat/covid">Covid-19 test</a></div>
                             </li>
                         </ul>
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" name="search" id="search-field"></div>
-                        </form><span class="navbar-text"><a href="#" class="login">Log In</a></span></div>
+                        </form><span class="navbar-text"><a href="/login" class="login">Log In</a></span></div>
                 </div>
             </nav>
             <div class="container hero">
@@ -352,31 +371,32 @@
             </div>
             <div class="grid-container">
               <div class="grid-item" style="margin-left: 40px;">
-                <h1>Alzhiemer prediction</h1>
-                <p style="font-size:25px;">Alzheimer's is the most common cause of dementia, 
+                <h2>Alzhiemer prediction</h2>
+               
+                <p style="font-size:18px;">Alzheimer's is the most common cause of dementia, 
                   a general term for memory loss and other cognitive abilities serious enough to 
                   interfere with daily life. Alzheimer's disease accounts for 60-80% of dementia cases.</p>
 
-                <p style="font-size:25px;">Alzheimer's is not a normal part of aging. The greatest known risk factor is 
+                <p style="font-size:18px;">Alzheimer's is not a normal part of aging. The greatest known risk factor is 
                   increasing age, and the majority of people with Alzheimer's are 65 and older. Alzheimer’s 
                   disease is considered to be younger-onset Alzheimer’s if it affects a person under 65. 
                   Younger-onset can also be referred to as early-onset Alzheimer’s. People with younger-onset Alzheimer’s 
                   can be in the early, middle or late stage of the disease.</p>
                 
-                  <p style="font-size:25px;">Alzheimer's worsens over time. Alzheimer's is a progressive disease, where dementia symptoms gradually 
+                  <p style="font-size:18px;">Alzheimer's worsens over time. Alzheimer's is a progressive disease, where dementia symptoms gradually 
                     worsen over a number of years. In its early stages, memory loss is mild, but with late-stage Alzheimer's, individuals lose the 
                     ability to carry on a conversation and respond to their environment. 
                     Alzheimer's is the sixth-leading cause of death in the United States. On average, a person with Alzheimer's lives 4 
                     to 8 years after diagnosis but can live as long as 20 years, depending on other factors.</p>
 
-                    <button class="button button4">Get tested for Alzheimer</button>
+                    <button class="button button4" onclick="location.href='/chat/alzhimers'">Get tested for Alzheimer</button>
               </div>
               <div class="grid-item">
-                <h1>Covid-19 prediction</h1>
-                <p style="font-size:25px;">Coronavirus disease 2019 (COVID-19), also known as COVID and the coronavirus, is a contagious disease 
+                <h2>Covid-19 prediction</h2>
+                <p style="font-size:18px;">Coronavirus disease 2019 (COVID-19), also known as COVID and the coronavirus, is a contagious disease 
                   caused by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). The first known case was identified in 
                   Wuhan, China, in December 2019.The disease has since spread worldwide, leading to an ongoing pandemic.</p>
-                <p style="font-size:25px;">Symptoms of COVID-19 are variable, but often include fever, cough, headache, fatigue, breathing difficulties, 
+                <p style="font-size:18px;">Symptoms of COVID-19 are variable, but often include fever, cough, headache, fatigue, breathing difficulties, 
                   and loss of smell and taste. Symptoms may begin one to fourteen days after exposure to the virus. At least 
                   a third of people who are infected do not develop noticeable symptoms. Of those people who develop symptoms noticeable 
                   enough to be classed as patients, most (81%) develop mild to moderate symptoms (up to mild pneumonia), while 14% develop severe 
@@ -385,7 +405,7 @@
                   experience a range of effects (long COVID) for months after recovery, and damage to organs has been observed. Multi-year studies 
                   </p>
 
-                  <button class="button button4">Get tested for Covid 19</button>
+                  <button class="button button4" onclick="location.href='/chat/covid'">Get tested for Covid 19</button>
                 
               </div>
  
@@ -399,32 +419,21 @@
       <div class="container">
         <div class="row row-pb-md">
           <div class="col-md-4 fh5co-widget">
-            <h3>A Little About Stamina.</h3>
-            <p style="color:#ccc">Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
-            <p><a class="btn btn-primary" href="#">Become A Member</a></p>
+            <h3>A Little AI-Doc</h3>
+            <p style="color:#ccc">Interactive online tool that helps you to find out whether you there is a possibility to hav a Covid infection or Alzhimers condition at home</p>
+            <p><a class="btn btn-primary" href="/login">Sign up</a></p>
           </div>
           <div class="col-md-8">
             <h3>Classes</h3>
             <div class="col-md-4 col-sm-4 col-xs-6">
               <ul class="fh5co-footer-links">
-                <li><a href="#">Cardio</a></li>
-                <li><a href="#">Body Building</a></li>
-                <li><a href="#">Yoga</a></li>
-                <li><a href="#">Boxing</a></li>
-                <li><a href="#">Running</a></li>
+                <li><a href="/chat/covid">COVID-19 Test</a></li>
+                <li><a href="/chat/dashbiard">Alzhimers Test</a></li>
+                <li><a href="/chat/alzhimers">Dashboard</a></li>
               </ul>
             </div>
   
   
-          </div>
-        </div>
-  
-        <div class="row copyright">
-          <div class="col-md-12 text-center">
-            <p>
-              <small style="color:#ccc" class="block">&copy; 2021 | All Rights Reserved.</small> 
-              <small style="color:#ccc" class="block">Powered by  healthygo.com</small>
-            </p>
           </div>
         </div>
   
