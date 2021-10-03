@@ -1,6 +1,6 @@
 question,type
-Do you have fever?,str
-Do you feel any body pain?,str
 How old are you?,int
+Do you feel any body pain?,str
+What is your body temp in Fahrenheit?,int
 Do you have runny nose?,str
 Do you feel any difficuly to breath?,str

@@ -1,0 +1,5 @@
+question,type,answer,score,isextra,extratype,extra
+"""What is today's date?""",str,"today.strftime(""%d/%m/%Y"")",1,TRUE,drop,"[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]"
+"""What month is it?""",str,"today.strftime(""%m"")",1,TRUE,drop,"['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
+"""What year is it?""",str,"today.strftime(""%Y"")",1,FALSE,,
+"""What day of the week is it today?""",str,,1,TRUE,drop,"['Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday', 'Sunday']"
